@@ -1,9 +1,7 @@
 'use client';
 
-import { Typography } from 'antd';
-
-const { Text } = Typography;
+import Typography from '@mui/material/Typography';
 
 export function Some() {
-  return <Text type="success">Hello Antd</Text>;
+  return <Typography variant="h2">I am h2 heading</Typography>;
 }
