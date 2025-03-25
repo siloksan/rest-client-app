@@ -4,6 +4,8 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './_theme';
 import './globals.css';
+import { Header } from '@/components/header/header';
+import Container from '@mui/material/Container';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -40,7 +42,10 @@ export default function RootLayout({
         className={`${inter.variable} ${jetBrainsMono.variable} ${roboto.variable}`}
       >
         <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          <ThemeProvider theme={theme}>
+            <Header />
+            <Container>{children}</Container>
+          </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
     </html>
