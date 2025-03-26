@@ -3,7 +3,6 @@
 import { ROUTES } from '@/constants';
 import { createBrowserSupabase } from '@/db/create-client';
 import { showSnackbar } from '@/store/snackbar/snackbar-store';
-import { setUserName } from '@/store/user/user-store';
 import { LoginFormData, loginSchema } from '@/utils/form-schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Alert } from '@mui/material';
@@ -49,7 +48,6 @@ export function Login() {
     }
 
     const userName = data?.user?.user_metadata?.username;
-    setUserName(userName);
 
     showSnackbar(
       <Alert severity="success">{`Authorization successfully! Hello ${userName}!`}</Alert>

@@ -3,7 +3,6 @@
 import { ROUTES } from '@/constants';
 import { createBrowserSupabase } from '@/db/create-client';
 import { showSnackbar } from '@/store/snackbar/snackbar-store';
-import { setUserName } from '@/store/user/user-store';
 import { RegistrationFormData, registrationSchema } from '@/utils/form-schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Alert } from '@mui/material';
@@ -50,7 +49,6 @@ export function Registration() {
     }
 
     const userName = data?.user?.user_metadata?.username;
-    setUserName(userName);
 
     showSnackbar(
       <Alert severity="success">{`Registration successfully ${userName}!`}</Alert>
