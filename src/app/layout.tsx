@@ -6,6 +6,7 @@ import { theme } from './_theme';
 import './globals.css';
 import { Header } from '@/components/header/header';
 import Container from '@mui/material/Container';
+import { SnackbarContainer } from '@/components/snakbar/snacbar';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -45,6 +46,7 @@ export default function RootLayout({
           <ThemeProvider theme={theme}>
             <Header />
             <Container>{children}</Container>
+            <SnackbarContainer />
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

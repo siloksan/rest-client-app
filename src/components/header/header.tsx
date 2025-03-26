@@ -5,9 +5,43 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { showSnackbar } from '@/store/snackbar/snackbar-store';
+import { Alert } from '@mui/material';
+import { ROUTES } from '@/constants';
+import Link from 'next/link';
+import { setUserName, useUserState } from '@/store/user/user-store';
+import { createBrowserSupabase } from '@/db/create-client';
+import { redirect } from 'next/navigation';
+import { useEffect } from 'react';
 
 export function Header() {
   const { scrolled } = useScrollState();
+  const { username } = useUserState();
+  const supabase = createBrowserSupabase();
+
+  const signOutAction = async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      showSnackbar(<Alert severity="error">{error.message}</Alert>);
+
+      return redirect(ROUTES.ERROR);
+    }
+
+    showSnackbar(<Alert severity="success">Goodbye {username}!</Alert>);
+    setUserName(null);
+
+    return redirect(ROUTES.MAIN);
+  };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setUserName(data?.user?.user_metadata.username ?? null);
+    };
+
+    fetchUser();
+  }, [supabase]);
 
   return (
     <AppBar
@@ -25,14 +59,41 @@ export function Header() {
         top: 0,
       }}
     >
-      <Box>logo</Box>
-      <Box>Language toggle</Box>
-      <Box>
-        <Button>Sign in</Button>
-        <Button>Sign up</Button>
-        <Button>
-          <LogoutIcon />
-        </Button>
+      <Button>
+        <Link href={ROUTES.MAIN}>logo</Link>
+      </Button>
+      <Button>Language toggle</Button>
+      <Box sx={{ display: 'flex', gap: 2 }}>
+        {username ? (
+          <Button onClick={signOutAction}>
+            <LogoutIcon />
+          </Button>
+        ) : (
+          <>
+            <Button variant="outlined">
+              <Link
+                href={ROUTES.SIGNIN}
+                style={{
+                  textDecoration: 'none',
+                  color: 'inherit',
+                }}
+              >
+                Sign in
+              </Link>
+            </Button>
+            <Button variant="outlined">
+              <Link
+                href={ROUTES.SIGNUP}
+                style={{
+                  textDecoration: 'none',
+                  color: 'inherit',
+                }}
+              >
+                Sign up
+              </Link>
+            </Button>
+          </>
+        )}
       </Box>
     </AppBar>
   );
