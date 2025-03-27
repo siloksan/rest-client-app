@@ -1,11 +1,11 @@
-import { Some } from '@/components/some/some';
-import Typography from '@mui/material/Typography';
+import { WelcomeSection } from '@/components/welcome-section/welcome-section';
+import { createServerSupabase } from '@/db/create-server';
 
-export default function Home() {
-  return (
-    <div>
-      <Some />
-      <Typography variant="h1">Hello Team</Typography>
-    </div>
-  );
+export default async function Home() {
+  const supabase = await createServerSupabase();
+  const { data } = await supabase.auth.getUser();
+
+  const userName = data?.user?.user_metadata?.username;
+
+  return <WelcomeSection username={userName} />;
 }
