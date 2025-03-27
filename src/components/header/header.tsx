@@ -1,17 +1,16 @@
 'use client';
 
-import { useScrollState } from '@/hooks/use-scrolle-state';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { showSnackbar } from '@/store/snackbar/snackbar-store';
-import { Alert } from '@mui/material';
+import { Alert, AppBar } from '@mui/material';
 import { ROUTES } from '@/constants';
 import Link from 'next/link';
 import { createBrowserSupabase } from '@/db/create-client';
 import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useScrollState } from '@/hooks';
 
 interface Props {
   initialUserName: string | null;
@@ -44,8 +43,6 @@ export function Header({ initialUserName }: Props) {
 
       setUsername(userName);
     };
-
-    getUserData();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(() => {
       getUserData();
