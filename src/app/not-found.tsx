@@ -17,10 +17,15 @@ export default function Custom404() {
         width: 460,
       }}
     >
-      <Typography variant="h1" sx={{ mb: 10, textAlign: 'center' , fontWeight: 700}}>
+      <Typography
+        variant="h1"
+        sx={{ mb: 10, textAlign: 'center', fontWeight: 700 }}
+      >
         404
       </Typography>
-      <Typography variant="h4" sx={{ mb: 10, textAlign: 'center' }}>Page not found...</Typography>
+      <Typography variant="h4" sx={{ mb: 10, textAlign: 'center' }}>
+        Page not found...
+      </Typography>
 
       <Box sx={{ display: 'flex', flexDirection: 'row', gap: 3 }}>
         <Button
