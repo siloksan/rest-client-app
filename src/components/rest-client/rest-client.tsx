@@ -8,22 +8,31 @@ import {
   FormControl,
   SelectChangeEvent,
   TextField,
-  Box
+  Box,
+  Tabs,
+  Tab
 } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, SyntheticEvent, useState } from 'react';
+import { initialField, Field, Fields } from '../fields/fields';
 
 const METHODS = ['GET', 'POST', 'DELETE', 'PUT', 'PATH'];
+const TABS = ['Headers', 'Query'];
 
 export function RestClient() {
   const [method, setMethod] = useState<string>('');
   const [url, setUrl] = useState('');
+  const [tab, setTab] = useState<string>(TABS[0]);
+  const [headers, setHeaders] = useState<Field[]>([initialField]);
+  const [queries, setQueries] = useState<Field[]>([initialField]);
 
   const handleChangeMethod = ({ target: { value } }: SelectChangeEvent) =>
     setMethod(value);
   const handleChangeUrl = ({
     target: { value },
   }: ChangeEvent<HTMLInputElement>) => setUrl(value);
+  const handleChangeTab = (event: SyntheticEvent, newValue: string) =>
+    setTab(newValue);
   return (
     <Box
       sx={{ pt: '1.5em', flex: 1, display: 'flex', flexDirection: 'column' }}
@@ -60,6 +69,19 @@ export function RestClient() {
           Send
         </Button>
       </FormControl>
+      <Box>
+        <Tabs
+          value={tab}
+          onChange={handleChangeTab}
+          aria-label="wrapped label tabs example"
+        >
+          {TABS.map((tab) => (
+            <Tab value={tab} label={tab} key={tab} />
+          ))}
+        </Tabs>
+        {tab === 'Headers' && <Fields handler={setHeaders} value={headers} />}
+        {tab === 'Query' && <Fields handler={setQueries} value={queries} />}
+      </Box>
     </Box>
   );
 }
