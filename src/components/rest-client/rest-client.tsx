@@ -15,9 +15,10 @@ import {
 import Typography from '@mui/material/Typography';
 import { ChangeEvent, SyntheticEvent, useState } from 'react';
 import { initialField, Field, Fields } from '../fields/fields';
+import { CodeEditor } from '../code-editor/code-editor';
 
 const METHODS = ['GET', 'POST', 'DELETE', 'PUT', 'PATH'];
-const TABS = ['Headers', 'Query'];
+const TABS = ['Headers', 'Query', 'Body'];
 
 export function RestClient() {
   const [method, setMethod] = useState<string>('');
@@ -25,6 +26,7 @@ export function RestClient() {
   const [tab, setTab] = useState<string>(TABS[0]);
   const [headers, setHeaders] = useState<Field[]>([initialField]);
   const [queries, setQueries] = useState<Field[]>([initialField]);
+  const [codeBody, setCodeBody] = useState('{}');
 
   const handleChangeMethod = ({ target: { value } }: SelectChangeEvent) =>
     setMethod(value);
@@ -81,6 +83,9 @@ export function RestClient() {
         </Tabs>
         {tab === 'Headers' && <Fields handler={setHeaders} value={headers} />}
         {tab === 'Query' && <Fields handler={setQueries} value={queries} />}
+        {tab === 'Body' && (
+          <CodeEditor handler={setCodeBody} value={codeBody} />
+        )}
       </Box>
     </Box>
   );
