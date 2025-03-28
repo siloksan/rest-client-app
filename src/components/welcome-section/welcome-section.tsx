@@ -4,6 +4,7 @@ import { ROUTES } from '@/constants';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 interface Props {
@@ -11,6 +12,11 @@ interface Props {
 }
 
 export function WelcomeSection({ username }: Props) {
+  const translate = useTranslations('MainPage');
+
+  const welcome = translate('welcome_message');
+  console.log('welcome: ', welcome);
+
   return (
     <>
       {username ? (
@@ -19,7 +25,7 @@ export function WelcomeSection({ username }: Props) {
         </Typography>
       ) : (
         <Typography variant="h2" sx={{ textAlign: 'center', mt: 10 }}>
-          Welcome!
+          {translate('welcome_message')}
         </Typography>
       )}
       <Typography variant="body2" sx={{ textAlign: 'center', mt: 5 }}>

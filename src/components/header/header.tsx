@@ -11,6 +11,7 @@ import { createBrowserSupabase } from '@/db/create-client';
 import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useScrollState } from '@/hooks';
+// import { Link as LinkIntl } from 'next-intl/link';
 
 interface Props {
   initialUserName: string | null;
@@ -70,7 +71,11 @@ export function Header({ initialUserName }: Props) {
       <Button>
         <Link href={ROUTES.MAIN}>logo</Link>
       </Button>
-      <Button>Language toggle</Button>
+      <Button>
+        <Link href="/ru" locale="ru">
+          Ru
+        </Link>
+      </Button>
       <Box sx={{ display: 'flex', gap: 2 }}>
         {username ? (
           <Button onClick={signOutAction}>

@@ -1,11 +1,6 @@
-import { WelcomeSection } from '@/components/welcome-section/welcome-section';
-import { createServerSupabase } from '@/db/create-server';
+import { redirect } from 'next/navigation';
 
-export default async function Home() {
-  const supabase = await createServerSupabase();
-  const { data } = await supabase.auth.getUser();
-
-  const userName = data?.user?.user_metadata?.username;
-
-  return <WelcomeSection username={userName} />;
+// This page only renders when the app is built statically (output: 'export')
+export default function RootPage() {
+  redirect('/en');
 }

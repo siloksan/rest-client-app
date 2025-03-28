@@ -35,12 +35,22 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const isAuthenticated = !error && user;
+
+  // const isProtectedRoute = protectedRoutes.some((route) =>
+  //   request.nextUrl.pathname.startsWith(route)
+  // );
+
   const isProtectedRoute = protectedRoutes.some((route) =>
-    request.nextUrl.pathname.startsWith(route)
+    request.nextUrl.pathname.includes(route)
   );
+  console.log('isProtectedRoute: ', isProtectedRoute);
+  console.log('request.nextUrl.pathname: ', request.nextUrl.pathname);
+  console.log('isAuthenticated: ', isAuthenticated);
 
   if (!isAuthenticated && isProtectedRoute) {
     const url = request.nextUrl.clone();
+
+    console.log('url: ', url);
     url.pathname = ROUTES.SIGNIN;
 
     return NextResponse.redirect(url);
