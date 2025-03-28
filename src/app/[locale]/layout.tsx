@@ -5,7 +5,6 @@ import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './_theme';
 import './globals.css';
 import { Header } from '@/components/header/header';
-import Container from '@mui/material/Container';
 import { SnackbarContainer } from '@/components/snakbar/snacbar';
 import { createServerSupabase } from '@/db/create-server';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
@@ -63,7 +62,7 @@ export default async function RootLayout({
           <AppRouterCacheProvider>
             <ThemeProvider theme={theme}>
               <Header initialUserName={userName} />
-              <Container>{children}</Container>
+              {children}
               <SnackbarContainer />
             </ThemeProvider>
           </AppRouterCacheProvider>

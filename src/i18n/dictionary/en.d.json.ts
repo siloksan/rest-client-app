@@ -2,30 +2,30 @@
 // See: https://next-intl.dev/docs/workflows/typescript#messages-arguments
 
 declare const messages: {
-  MainPage: {
-    welcome_message: 'Welcome!';
-    welcome_user: 'Welcome Back {username}!';
-    about_app: 'REST Client is a lightweight API testing tool designed to simplify working with RESTful services. Whether you are debugging an API, testing endpoints, or managing request history, REST Client provides an intuitive and efficient experience. With built-in authentication, request history tracking, and support for various HTTP methods, you can seamlessly interact with any API. Start exploring now—sign in to begin your API journey!';
-  };
+  "MainPage": {
+    "welcome_message": "Welcome!",
+    "welcome_user": "Welcome Back {username}!",
+    "about_app": "REST Client is a lightweight API testing tool designed to simplify working with RESTful services. Whether you are debugging an API, testing endpoints, or managing request history, REST Client provides an intuitive and efficient experience. With built-in authentication, request history tracking, and support for various HTTP methods, you can seamlessly interact with any API. Start exploring now—sign in to begin your API journey!"
+  },
 
-  Buttons: {
-    signin: 'Sign in';
-    signup: 'Sign up';
-  };
+  "Buttons": {
+    "signin": "Sign in",
+    "signup": "Sign up"
+  },
 
-  RestCards: {
-    client: {
-      title: 'REST Client';
-      description: 'A tool for testing and sending HTTP requests to an API.';
-    };
-    history: {
-      title: 'Request History';
-      description: 'A list of previously executed requests with the ability to reuse them.';
-    };
-    variable: {
-      title: 'Variables';
-      description: 'Manage variables for easy value substitution in requests.';
-    };
-  };
+  "RestCards": {
+    "client": {
+      "title": "REST Client",
+      "description": "A tool for testing and sending HTTP requests to an API."
+    },
+    "history": {
+      "title": "Request History",
+      "description": "A list of previously executed requests with the ability to reuse them."
+    },
+    "variable": {
+      "title": "Variables",
+      "description": "Manage variables for easy value substitution in requests."
+    }
+  }
 };
 export default messages;

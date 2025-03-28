@@ -1,9 +1,14 @@
+import { RestClient } from '@/components/rest-client/rest-client';
 import { ROUTES } from '@/constants';
 import { CheckAuth } from '@/utils/check-auth';
-import Typography from '@mui/material/Typography';
+import { Container } from '@mui/material';
 
 async function Page() {
-  return <Typography>Rest Client - only for authorized users</Typography>;
+  return (
+    <Container sx={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
+      <RestClient />
+    </Container>
+  );
 }
 
 export default CheckAuth(Page, ROUTES.SIGNIN);
