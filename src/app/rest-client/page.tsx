@@ -1,5 +1,5 @@
-import Typography from '@mui/material/Typography';
+import { RestClient } from "@/components/rest-client/rest-client";
 
 export default function Page() {
-  return <Typography>Rest Client - only for authorized users</Typography>;
+  return <RestClient />
 }
