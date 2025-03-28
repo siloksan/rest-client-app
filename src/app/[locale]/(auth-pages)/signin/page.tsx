@@ -1,5 +1,8 @@
 import { Login } from '@/components/login/login';
+import { CheckUserLoggedIn } from '@/utils/check-auth';
 
-export default function Signin() {
+async function Signin() {
   return <Login />;
 }
+
+export default CheckUserLoggedIn(Signin);

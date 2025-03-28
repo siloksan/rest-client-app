@@ -11,7 +11,6 @@ import { createServerSupabase } from '@/db/create-server';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
-import { getMessages } from 'next-intl/server';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -45,9 +44,6 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
-  console.log('locale: layout', locale);
-  const messages = await getMessages();
-  console.log('messages: ', messages);
 
   if (!hasLocale(routing.locales, locale)) {
     notFound();

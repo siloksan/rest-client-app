@@ -1,5 +1,8 @@
 import { Registration } from '@/components/registration/registration';
+import { CheckUserLoggedIn } from '@/utils/check-auth';
 
-export default function Signup() {
+async function Signup() {
   return <Registration />;
 }
+
+export default CheckUserLoggedIn(Signup);

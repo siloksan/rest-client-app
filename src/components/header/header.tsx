@@ -11,7 +11,8 @@ import { createBrowserSupabase } from '@/db/create-client';
 import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useScrollState } from '@/hooks';
-// import { Link as LinkIntl } from 'next-intl/link';
+import { useTranslations } from 'next-intl';
+import { LanguageSwitcher } from '../language-switcher/language-switcher';
 
 interface Props {
   initialUserName: string | null;
@@ -21,6 +22,7 @@ export function Header({ initialUserName }: Props) {
   const { scrolled } = useScrollState();
   const [username, setUsername] = useState(initialUserName);
   const supabase = createBrowserSupabase();
+  const translateBtn = useTranslations('Buttons');
 
   const signOutAction = async () => {
     const { error } = await supabase.auth.signOut();
@@ -71,11 +73,7 @@ export function Header({ initialUserName }: Props) {
       <Button>
         <Link href={ROUTES.MAIN}>logo</Link>
       </Button>
-      <Button>
-        <Link href="/ru" locale="ru">
-          Ru
-        </Link>
-      </Button>
+      <LanguageSwitcher />
       <Box sx={{ display: 'flex', gap: 2 }}>
         {username ? (
           <Button onClick={signOutAction}>
@@ -91,7 +89,7 @@ export function Header({ initialUserName }: Props) {
                   color: 'inherit',
                 }}
               >
-                Sign in
+                {translateBtn('signin')}
               </Link>
             </Button>
             <Button variant="outlined">
@@ -102,7 +100,7 @@ export function Header({ initialUserName }: Props) {
                   color: 'inherit',
                 }}
               >
-                Sign up
+                {translateBtn('signup')}
               </Link>
             </Button>
           </>
