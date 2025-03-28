@@ -17,14 +17,13 @@ import { ChangeEvent, SyntheticEvent, useState } from 'react';
 import { initialField, Field, Fields } from '../fields/fields';
 import { CodeEditor } from '../code-editor/code-editor';
 import { ResponseField } from '../response-field/response-field';
-
-const METHODS = ['GET', 'POST', 'DELETE', 'PUT', 'PATH'];
-const TABS = ['Headers', 'Query', 'Body'];
+import { Methods } from '@/types';
 
 export function RestClient() {
+  const tabs = ['Headers', 'Query', 'Body'];
   const [method, setMethod] = useState<string>('');
   const [url, setUrl] = useState('');
-  const [tab, setTab] = useState<string>(TABS[0]);
+  const [tab, setTab] = useState<string>(tabs[0]);
   const [headers, setHeaders] = useState<Field[]>([initialField]);
   const [queries, setQueries] = useState<Field[]>([initialField]);
   const [codeBody, setCodeBody] = useState('{}');
@@ -56,7 +55,7 @@ export function RestClient() {
           onChange={handleChangeMethod}
           sx={{ width: '7em' }}
         >
-          {METHODS.map((method) => (
+          {Object.values(Methods).map((method) => (
             <MenuItem key={method} value={method}>
               {method}
             </MenuItem>
@@ -79,7 +78,7 @@ export function RestClient() {
           onChange={handleChangeTab}
           aria-label="wrapped label tabs example"
         >
-          {TABS.map((tab) => (
+          {tabs.map((tab) => (
             <Tab value={tab} label={tab} key={tab} />
           ))}
         </Tabs>
