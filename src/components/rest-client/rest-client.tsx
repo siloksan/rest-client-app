@@ -10,7 +10,7 @@ import {
   TextField,
   Box,
   Tabs,
-  Tab
+  Tab,
 } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { ChangeEvent, SyntheticEvent, useState } from 'react';
