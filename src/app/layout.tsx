@@ -8,6 +8,10 @@ import { Header } from '@/components/header/header';
 import Container from '@mui/material/Container';
 import { SnackbarContainer } from '@/components/snakbar/snacbar';
 import { createServerSupabase } from '@/db/create-server';
+import {
+  LoadVariablesFromLocalStorage,
+  VariablesStoreProvider,
+} from '@/store/variables/variable-store-provider';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -50,9 +54,16 @@ export default async function RootLayout({
       >
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <Header initialUserName={userName} />
-            <Container sx={{ display: 'flex', flex: 1, flexDirection: 'column'}}>{children}</Container>
-            <SnackbarContainer />
+            <VariablesStoreProvider>
+              <Header initialUserName={userName} />
+              <Container
+                sx={{ display: 'flex', flex: 1, flexDirection: 'column' }}
+              >
+                {children}
+              </Container>
+              <SnackbarContainer />
+              <LoadVariablesFromLocalStorage />
+            </VariablesStoreProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

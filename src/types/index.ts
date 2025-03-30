@@ -1,7 +1,14 @@
 export enum Methods {
-  GET ='GET',
+  GET = 'GET',
   POST = 'POST',
   DELETE = 'DELETE',
   PUT = 'PUT',
-  PATH ='PATH',
+  PATH = 'PATH',
+}
+
+export interface Variable {
+  key: string;
+  name: string;
+  value: string;
+  active: boolean;
 }
