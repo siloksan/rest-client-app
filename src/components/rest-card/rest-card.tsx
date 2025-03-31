@@ -2,7 +2,7 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 
 interface Props {
   title: string;
@@ -20,7 +20,7 @@ export function RestCard({
   setSelectedCard,
   index,
   href,
-}: Props) {
+}: Readonly<Props>) {
   return (
     <Card>
       <Link href={href} style={{ textDecoration: 'none', color: 'inherit' }}>

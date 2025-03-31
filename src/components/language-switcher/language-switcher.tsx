@@ -1,36 +1,35 @@
+import { locales } from '@/constants';
+import { usePathname, useRouter } from '@/i18n/navigation';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 
 export function LanguageSwitcher() {
-  const [locale, setLocale] = useState('');
-  const router = useRouter();
   const pathname = usePathname();
-
-  useEffect(() => {
-    const currentLocale = pathname.split('/')[1];
-    setLocale(currentLocale || 'en');
-  }, [pathname]);
+  const router = useRouter();
+  const params = useParams();
+  const locale = useLocale();
+  const translate = useTranslations('LanguageSwitcher');
 
   const handleChange = (event: SelectChangeEvent) => {
     const newLocale = event.target.value;
-    setLocale(newLocale);
 
-    const pathParts = pathname.split('/');
-    pathParts[1] = newLocale;
-
-    const newPathname = pathParts.join('/');
-
-    router.push(newPathname);
+    router.replace(
+      // @ts-expect-error -- TypeScript will validate that only known `params`
+      // are used in combination with a given `pathname`. Since the two will
+      // always match for the current route, we can skip runtime checks.
+      { pathname, params },
+      { locale: newLocale }
+    );
   };
   return (
     <Box sx={{ minWidth: 80 }}>
       <FormControl fullWidth size="small">
-        <InputLabel id="language">Language</InputLabel>
+        <InputLabel id="language">{translate('label')}</InputLabel>
         <Select
           labelId="language"
           id="language-select"
@@ -38,8 +37,11 @@ export function LanguageSwitcher() {
           label="Language"
           onChange={handleChange}
         >
-          <MenuItem value="en">en</MenuItem>
-          <MenuItem value="ru">ru</MenuItem>
+          {locales.map((locale) => (
+            <MenuItem value={locale} key={locale}>
+              {locale}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </Box>

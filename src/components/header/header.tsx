@@ -6,12 +6,11 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { showSnackbar } from '@/store/snackbar/snackbar-store';
 import { Alert, AppBar } from '@mui/material';
 import { ROUTES } from '@/constants';
-import Link from 'next/link';
+import { redirect, Link } from '@/i18n/navigation';
 import { createBrowserSupabase } from '@/db/create-client';
-import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useScrollState } from '@/hooks';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { LanguageSwitcher } from '../language-switcher/language-switcher';
 
 interface Props {
@@ -19,6 +18,7 @@ interface Props {
 }
 
 export function Header({ initialUserName }: Props) {
+  const locale = useLocale();
   const { scrolled } = useScrollState();
   const [username, setUsername] = useState(initialUserName);
   const supabase = createBrowserSupabase();
@@ -30,13 +30,12 @@ export function Header({ initialUserName }: Props) {
     if (error) {
       showSnackbar(<Alert severity="error">{error.message}</Alert>);
 
-      return redirect(ROUTES.ERROR);
+      return redirect({ href: ROUTES.ERROR, locale });
     }
 
     showSnackbar(<Alert severity="success">Goodbye {username}!</Alert>);
     setUsername(null);
-
-    return redirect(ROUTES.MAIN);
+    return redirect({ href: ROUTES.MAIN, locale });
   };
 
   useEffect(() => {
@@ -76,7 +75,7 @@ export function Header({ initialUserName }: Props) {
       <LanguageSwitcher />
       <Box sx={{ display: 'flex', gap: 2 }}>
         {username ? (
-          <Button onClick={signOutAction}>
+          <Button onClick={signOutAction} title={translateBtn('signout')}>
             <LogoutIcon />
           </Button>
         ) : (

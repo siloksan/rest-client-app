@@ -2,6 +2,10 @@
 // See: https://next-intl.dev/docs/workflows/typescript#messages-arguments
 
 declare const messages: {
+  "Metadata": {
+    "title": "REST Client",
+    "description": "REST Client is a lightweight API testing tool designed to simplify working with RESTful services"
+  },
   "MainPage": {
     "welcome_message": "Welcome!",
     "welcome_user": "Welcome Back {username}!",
@@ -10,7 +14,21 @@ declare const messages: {
 
   "Buttons": {
     "signin": "Sign in",
-    "signup": "Sign up"
+    "signup": "Sign up",
+    "signout": "Sign out",
+    "send": "Send"
+  },
+
+  "LanguageSwitcher": {
+    "label": "Language"
+  },
+
+  "LoginPage": {
+    "title": "Log in"
+  },
+
+  "RegistrationPage": {
+    "title": "Registration"
   },
 
   "RestCards": {
@@ -26,6 +44,19 @@ declare const messages: {
       "title": "Variables",
       "description": "Manage variables for easy value substitution in requests."
     }
+  },
+  "RestClient": {
+    "method": "Method",
+    "headers": "Headers",
+    "query": "Query",
+    "body": "Body",
+    "response": "Response",
+    "status": "Status"
+  },
+  "NotFoundPage": {
+    "message": "Page not found...",
+    "goBack": "Go back",
+    "goHome": "Go home"
   }
 };
 export default messages;

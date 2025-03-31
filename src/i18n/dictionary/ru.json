@@ -1,4 +1,8 @@
 {
+  "Metadata": {
+    "title": "REST Клиент",
+    "description": "REST Client - это легкий инструмент для тестирования API, предназначенный для упрощения работы с REST-сервисами."
+  },
   "MainPage": {
     "welcome_message": "Добро пожаловать!",
     "welcome_user": "Добро пожаловать {username}!",
@@ -7,7 +11,21 @@
 
   "Buttons": {
     "signin": "Войти",
-    "signup": "Зарегистрироваться"
+    "signup": "Зарегистрироваться",
+    "signout": "Выйти",
+    "send": "Отправить"
+  },
+
+  "LanguageSwitcher": {
+    "label": "Язык"
+  },
+
+  "LoginPage": {
+    "title": "Вход"
+  },
+
+  "RegistrationPage": {
+    "title": "Регистрация"
   },
 
   "RestCards": {
@@ -23,5 +41,18 @@
       "title": "Переменные",
       "description": "Управление переменными для удобной подстановки значений в запросах."
     }
+  },
+  "RestClient": {
+    "method": "Метод",
+    "headers": "Заголовки",
+    "query": "Параметры",
+    "body": "Тело",
+    "response": "Ответ",
+    "status": "Статус"
+  },
+  "NotFoundPage": {
+    "message": "Страница не найдена...",
+    "goBack": "Назад",
+    "goHome": "Домой"
   }
 }
