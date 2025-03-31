@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 
 export default function Custom404() {
   const router = useRouter();
-  const t = useTranslations('NotFoundPage');
+  const translate = useTranslations('NotFoundPage');
 
   return (
     <Container
@@ -26,7 +26,7 @@ export default function Custom404() {
         404
       </Typography>
       <Typography variant="h4" sx={{ mb: 10, textAlign: 'center' }}>
-        {t('message')}
+        {translate('message')}
       </Typography>
 
       <Box sx={{ display: 'flex', flexDirection: 'row', gap: 3 }}>
@@ -37,7 +37,7 @@ export default function Custom404() {
             router.back();
           }}
         >
-          {t('goBack')}
+          {translate('goBack')}
         </Button>
         <Button
           variant="outlined"
@@ -46,7 +46,7 @@ export default function Custom404() {
             router.push('/');
           }}
         >
-          {t('goHome')}
+          {translate('goHome')}
         </Button>
       </Box>
     </Container>
