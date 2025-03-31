@@ -1,7 +1,6 @@
 'use client';
 
 import Box from '@mui/material/Box';
-import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
@@ -9,6 +8,8 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 import { useVariableStore } from '@/store/variables/variable-store-provider';
+import { showSnackbar } from '@/store/snackbar/snackbar-store';
+import Alert from '@mui/material/Alert';
 
 interface Props {
   variableName: string;
@@ -16,7 +17,6 @@ interface Props {
   addNewField: () => void;
   deleteVariable: (key: string) => void;
   idx: string;
-  active: boolean;
 }
 
 export function VariableField({
@@ -24,68 +24,52 @@ export function VariableField({
   variableValue = '',
   addNewField,
   deleteVariable,
-  active,
   idx,
 }: Props) {
   const [name, setName] = useState(variableName);
   const [value, setValue] = useState(variableValue);
-  const [isActive, setIsActive] = useState(active);
   const { variables, addVariable, updateVariable } = useVariableStore(
     (state) => state
   );
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
+
+  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+
+  const variable = variables.find((variable) => variable.key === idx);
+  const isChanged = variable?.name !== name || variable?.value !== value;
+  const isEmpty = !name || !value;
+
   const saveVariableToLocalStorage = () => {
-    if (!name || !value) {
+    if (isEmpty) {
       return;
     }
 
-    setIsActive(!isActive);
-
-    if (variables.some((variable) => variable.key === idx)) {
+    if (variable) {
       updateVariable({
-        key: idx,
+        ...variable,
         name,
         value,
-        active: !isActive,
       });
+
+      showSnackbar(<Alert severity="success">Variable updated</Alert>);
     } else {
       addVariable({
         key: idx,
         name,
         value,
-        active: !isActive,
       });
+
+      showSnackbar(<Alert severity="success">Variable added</Alert>);
     }
-  };
-
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (variables.some((variable) => variable.key === idx)) {
-      updateVariable({
-        key: idx,
-        name: e.target.value,
-        value,
-        active,
-      });
-    }
-
-    setName(e.target.value);
-  };
-
-  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (variables.some((variable) => variable.key === idx)) {
-      updateVariable({
-        key: idx,
-        name,
-        value: e.target.value,
-        active,
-      });
-    }
-
-    setValue(e.target.value);
   };
 
   return (
     <Box sx={{ display: 'flex', gap: 1 }}>
-      <Checkbox onChange={saveVariableToLocalStorage} checked={isActive} />
       <TextField
         label="Variable"
         maxRows={6}
@@ -112,7 +96,13 @@ export function VariableField({
       <IconButton aria-label="add" size="medium" onClick={addNewField}>
         <AddIcon fontSize="inherit" />
       </IconButton>
-      <IconButton aria-label="add" size="medium">
+      <IconButton
+        aria-label="add"
+        size="medium"
+        color="success"
+        onClick={saveVariableToLocalStorage}
+        disabled={!isChanged || isEmpty}
+      >
         <SaveIcon fontSize="inherit" />
       </IconButton>
     </Box>

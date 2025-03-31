@@ -1,5 +1,5 @@
 import { VariableEditor } from '@/components/variable-editor/variable-editor';
-import { Container } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 
 export default async function Variable() {
   return (
@@ -13,6 +13,12 @@ export default async function Variable() {
         backgroundColor: 'background.paper',
       }}
     >
+      <Typography
+        variant="h1"
+        sx={{ mb: 5, textAlign: 'center', fontSize: 40 }}
+      >
+        Variables
+      </Typography>
       <VariableEditor />
     </Container>
   );

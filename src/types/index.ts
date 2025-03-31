@@ -10,5 +10,4 @@ export interface Variable {
   key: string;
   name: string;
   value: string;
-  active: boolean;
 }

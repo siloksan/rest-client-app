@@ -72,6 +72,7 @@ export const createVariableStore = (
         return { variables: updatedVariables };
       });
     },
+
     changeActiveFlag: (active: boolean, key: Variable['key']) => {
       set((state) => {
         const updatedVariables = state.variables.map((variable) => {
@@ -92,57 +93,10 @@ export const createVariableStore = (
     },
 
     loadFromLocalStorage: () => {
-      // if (typeof window !== 'undefined') {
       const storedValueString = localStorage.getItem(LOCALE_KEYS.VARIABLES);
       if (storedValueString) {
         set({ variables: JSON.parse(storedValueString) });
       }
-      // }
     },
   }));
 };
-
-// export const useVariablesStore = create<VariablesState>((set) => ({
-//   variables: [],
-
-//   addVariable: (variable) => {
-//     set((state) => {
-//       const updatedVariables = [...state.variables, variable];
-
-//       // if (typeof window !== 'undefined') {
-//       //   localStorage.setItem(
-//       //     LOCALE_KEYS.VARIABLES,
-//       //     JSON.stringify(updatedVariables)
-//       //   );
-//       // }
-
-//       return { variables: updatedVariables };
-//     });
-//   },
-
-//   deleteVariableFromStore: (variableKey: string) => {
-//     set((state) => {
-//       const updatedVariables = state.variables.filter(
-//         (v) => v.key !== variableKey
-//       );
-
-//       if (typeof window !== 'undefined') {
-//         localStorage.setItem(
-//           LOCALE_KEYS.VARIABLES,
-//           JSON.stringify(updatedVariables)
-//         );
-//       }
-
-//       return { variables: updatedVariables };
-//     });
-//   },
-
-//   loadFromLocalStorage: () => {
-//     if (typeof window !== 'undefined') {
-//       const storedValueString = localStorage.getItem(LOCALE_KEYS.VARIABLES);
-//       if (storedValueString) {
-//         set({ variables: JSON.parse(storedValueString) });
-//       }
-//     }
-//   },
-// }));

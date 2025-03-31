@@ -10,7 +10,6 @@ import { useVariableStore } from '@/store/variables/variable-store-provider';
 const initialFields = {
   name: '',
   value: '',
-  active: false,
 };
 
 export function VariableEditor() {
@@ -53,13 +52,12 @@ export function VariableEditor() {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      {fields?.map(({ key, name, value, active }) => (
+      {fields?.map(({ key, name, value }) => (
         <VariableField
           key={key}
           idx={key}
           variableName={name}
           variableValue={value}
-          active={active}
           addNewField={addNewField}
           deleteVariable={deleteVariable}
         />
