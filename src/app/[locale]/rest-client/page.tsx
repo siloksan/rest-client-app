@@ -1,12 +1,6 @@
-import { RestClient } from '@/components/rest-client/rest-client';
-import { Container } from '@mui/material';
+import { redirect } from "next/navigation";
 
-async function Page() {
-  return (
-    <Container sx={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
-      <RestClient />
-    </Container>
-  );
+export default function Page() {
+  console.log('asd')
+  return redirect('/rest-client/GET');
 }
-
-export default Page;

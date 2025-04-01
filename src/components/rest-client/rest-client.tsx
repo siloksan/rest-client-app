@@ -22,7 +22,7 @@ import { useTranslations } from 'next-intl';
 
 export function RestClient() {
   const tabs = ['Headers', 'Query', 'Body'];
-  const [method, setMethod] = useState<string>('');
+  const [method, setMethod] = useState<string>(Methods.GET);
   const [url, setUrl] = useState('');
   const [tab, setTab] = useState<string>(tabs[0]);
   const [headers, setHeaders] = useState<Field[]>([initialField]);
