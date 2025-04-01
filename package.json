@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "dev2": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "npm run lint:code && npm run lint:types",

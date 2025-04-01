@@ -13,15 +13,16 @@ import {
   Tab,
 } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { ChangeEvent, SyntheticEvent, useState } from 'react';
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
 import { initialField, Field, Fields } from '../fields/fields';
 import { CodeEditor } from '../code-editor/code-editor';
 import { ResponseField } from '../response-field/response-field';
 import { Methods } from '@/types';
-import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 
 export function RestClient() {
   const tabs = ['Headers', 'Query', 'Body'];
+  const router = useRouter();
   const [method, setMethod] = useState<string>(Methods.GET);
   const [url, setUrl] = useState('');
   const [tab, setTab] = useState<string>(tabs[0]);
@@ -29,12 +30,28 @@ export function RestClient() {
   const [queries, setQueries] = useState<Field[]>([initialField]);
   const [codeBody, setCodeBody] = useState('{}');
   const [response] = useState<string | null>('{test: code}');
-  const translate = useTranslations('RestCards');
-  const translateRestClient = useTranslations('RestClient');
-  const translateBtn = useTranslations('Buttons');
 
-  const handleChangeMethod = ({ target: { value } }: SelectChangeEvent) =>
+  useEffect(() => {
+    const urlBase64 = btoa(url);
+    const searchParams = new URLSearchParams();
+    let nextUrl = `/en/rest-client/${method}/${urlBase64}`;
+
+    if(method !== Methods.GET){
+      const bodyBase64 = btoa(codeBody);
+      nextUrl+= `/${bodyBase64}`
+    }
+    headers.map(header => {
+      if(header.isActive){
+        searchParams.set(header.fieldKey, encodeURIComponent(header.value))
+      }
+    })
+    nextUrl+= `?${(searchParams.toString())}`
+    router.push(nextUrl)
+  }, [codeBody, headers, method, router, url])
+
+  const handleChangeMethod = ({ target: { value } }: SelectChangeEvent) => {
     setMethod(value);
+  }
   const handleChangeUrl = ({
     target: { value },
   }: ChangeEvent<HTMLInputElement>) => setUrl(value);
@@ -45,15 +62,13 @@ export function RestClient() {
       sx={{ pt: '1.5em', flex: 1, display: 'flex', flexDirection: 'column' }}
     >
       <Typography align="center" variant="h5" mb={'.5em'}>
-        {translate('client.title')}
+        REST Client
       </Typography>
       <FormControl
         sx={{ display: 'flex', flexDirection: 'row', gap: '.5em' }}
         fullWidth
       >
-        <InputLabel id="method-label">
-          {translateRestClient('method')}
-        </InputLabel>
+        <InputLabel id="method-label">Method</InputLabel>
         <Select
           labelId="method-label"
           value={method}
@@ -75,7 +90,7 @@ export function RestClient() {
           sx={{ flex: '1' }}
         />
         <Button variant="outlined" type="submit">
-          {translateBtn('send')}
+          Send
         </Button>
       </FormControl>
       <Box>
