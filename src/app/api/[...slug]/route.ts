@@ -1,4 +1,5 @@
 import { Methods } from "@/types";
+import { base64ToBytes } from "@/utils/converterBase64";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request,
@@ -8,11 +9,13 @@ export async function GET(request: Request,
   let response: Response;
 
   if(Methods.GET === method){
-    response = await fetch(atob(url));
+    response = await fetch(new TextDecoder().decode(base64ToBytes(url)), {
+      headers: Object.fromEntries(searchParams.entries())
+    });
   } else {
-    response = await fetch(atob(url), {
+    response = await fetch(new TextDecoder().decode(base64ToBytes(url)), {
       method: method,
-      body: JSON.parse(atob(body)),
+      body: JSON.parse(new TextDecoder().decode(base64ToBytes(body))),
       headers: Object.fromEntries(searchParams.entries())
     });
   }

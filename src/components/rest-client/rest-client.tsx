@@ -19,6 +19,7 @@ import { CodeEditor } from '../code-editor/code-editor';
 import { ResponseField } from '../response-field/response-field';
 import { Methods } from '@/types';
 import { useRouter } from 'next/navigation';
+import { bytesToBase64 } from '@/utils/converterBase64';
 
 export function RestClient() {
   const tabs = ['Headers', 'Query', 'Body'];
@@ -32,12 +33,12 @@ export function RestClient() {
   const [response, setResponse] = useState<{status: number, data: string} | null>(null);
 
   useEffect(() => {
-    const urlBase64 = btoa(url);
+    const urlBase64 = bytesToBase64(new TextEncoder().encode(url));
     const searchParams = new URLSearchParams();
     let nextUrl = `/en/rest-client/${method}/${urlBase64}`;
 
     if(method !== Methods.GET){
-      const bodyBase64 = btoa(codeBody);
+      const bodyBase64 = bytesToBase64(new TextEncoder().encode(codeBody));
       nextUrl+= `/${bodyBase64}`
     }
     headers.map(header => {
