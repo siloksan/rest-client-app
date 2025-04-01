@@ -4,32 +4,32 @@ import { ROUTES } from '@/constants';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
+import { RestCards } from '../rest-cards/rest-cards';
 
 interface Props {
   username: string | null;
 }
 
 export function WelcomeSection({ username }: Props) {
+  const translate = useTranslations('MainPage');
+
+  const translateBtn = useTranslations('Buttons');
+
   return (
     <>
       {username ? (
         <Typography variant="h2" sx={{ textAlign: 'center', mt: 10 }}>
-          Welcome Back {username}!
+          {translate('welcome_user', { username })}
         </Typography>
       ) : (
         <Typography variant="h2" sx={{ textAlign: 'center', mt: 10 }}>
-          Welcome!
+          {translate('welcome_message')}
         </Typography>
       )}
       <Typography variant="body2" sx={{ textAlign: 'center', mt: 5 }}>
-        REST Client is a lightweight API testing tool designed to simplify
-        working with RESTful services. Whether you are debugging an API, testing
-        endpoints, or managing request history, REST Client provides an
-        intuitive and efficient experience. With built-in authentication,
-        request history tracking, and support for various HTTP methods, you can
-        seamlessly interact with any API. Start exploring now—sign in to begin
-        your API journey!
+        {translate('about_app')}
       </Typography>
       {!username && (
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5, gap: 2 }}>
@@ -41,7 +41,7 @@ export function WelcomeSection({ username }: Props) {
                 color: 'inherit',
               }}
             >
-              Sign in
+              {translateBtn('signin')}
             </Link>
           </Button>
           <Button variant="outlined">
@@ -52,22 +52,13 @@ export function WelcomeSection({ username }: Props) {
                 color: 'inherit',
               }}
             >
-              Sign up
+              {translateBtn('signup')}
             </Link>
           </Button>
         </Box>
       )}
-      <Button sx={{ mt: 5 }}>
-        <Link
-          href={ROUTES.REST_CLIENT}
-          style={{
-            textDecoration: 'none',
-            color: 'inherit',
-          }}
-        >
-          Rest client(protected route only for authorized users)
-        </Link>
-      </Button>
+
+      <RestCards />
       <Typography>
         This text have only one purpose to check header! Do not forget to remove
         it after checking! Lorem ipsum dolor sit amet consectetur adipisicing

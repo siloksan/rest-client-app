@@ -10,7 +10,7 @@ import {
   TextField,
   Box,
   Tabs,
-  Tab
+  Tab,
 } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { ChangeEvent, SyntheticEvent, useState } from 'react';
@@ -18,6 +18,7 @@ import { initialField, Field, Fields } from '../fields/fields';
 import { CodeEditor } from '../code-editor/code-editor';
 import { ResponseField } from '../response-field/response-field';
 import { Methods } from '@/types';
+import { useTranslations } from 'next-intl';
 
 export function RestClient() {
   const tabs = ['Headers', 'Query', 'Body'];
@@ -28,6 +29,9 @@ export function RestClient() {
   const [queries, setQueries] = useState<Field[]>([initialField]);
   const [codeBody, setCodeBody] = useState('{}');
   const [response] = useState<string | null>('{test: code}');
+  const translate = useTranslations('RestCards');
+  const translateRestClient = useTranslations('RestClient');
+  const translateBtn = useTranslations('Buttons');
 
   const handleChangeMethod = ({ target: { value } }: SelectChangeEvent) =>
     setMethod(value);
@@ -41,13 +45,15 @@ export function RestClient() {
       sx={{ pt: '1.5em', flex: 1, display: 'flex', flexDirection: 'column' }}
     >
       <Typography align="center" variant="h5" mb={'.5em'}>
-        REST Client
+        {translate('client.title')}
       </Typography>
       <FormControl
         sx={{ display: 'flex', flexDirection: 'row', gap: '.5em' }}
         fullWidth
       >
-        <InputLabel id="method-label">Method</InputLabel>
+        <InputLabel id="method-label">
+          {translateRestClient('method')}
+        </InputLabel>
         <Select
           labelId="method-label"
           value={method}
@@ -69,7 +75,7 @@ export function RestClient() {
           sx={{ flex: '1' }}
         />
         <Button variant="outlined" type="submit">
-          Send
+          {translateBtn('send')}
         </Button>
       </FormControl>
       <Box>

@@ -1,50 +1,60 @@
 import { createServerClient } from '@supabase/ssr';
-import { NextResponse, type NextRequest } from 'next/server';
+import { NextFetchEvent, NextResponse, type NextRequest } from 'next/server';
 import { keySupabase, urlSupabase } from './supabase.credentials';
-import { ROUTES } from '@/constants';
+import { locales, ROUTES } from '@/constants';
+import { MiddlewareFactory } from '@/middleware';
 
 const protectedRoutes = [ROUTES.REST_CLIENT];
 
-export async function updateSession(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({
-    request,
-  });
+export const withAuth: MiddlewareFactory = (nextMiddleware) => {
+  return async (request: NextRequest, event: NextFetchEvent) => {
+    let supabaseResponse = await nextMiddleware(request, event);
 
-  const supabase = createServerClient(urlSupabase, keySupabase, {
-    cookies: {
-      getAll() {
-        return request.cookies.getAll();
+    const supabase = createServerClient(urlSupabase, keySupabase, {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) =>
+            request.cookies.set(name, value)
+          );
+          supabaseResponse = NextResponse.next({
+            request,
+          });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            supabaseResponse.cookies.set(name, value, options)
+          );
+        },
       },
-      setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value }) =>
-          request.cookies.set(name, value)
-        );
-        supabaseResponse = NextResponse.next({
-          request,
-        });
-        cookiesToSet.forEach(({ name, value, options }) =>
-          supabaseResponse.cookies.set(name, value, options)
-        );
-      },
-    },
-  });
+    });
 
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
 
-  const isAuthenticated = !error && user;
-  const isProtectedRoute = protectedRoutes.some((route) =>
-    request.nextUrl.pathname.startsWith(route)
-  );
+    const isAuthenticated = !error && user;
 
-  if (!isAuthenticated && isProtectedRoute) {
-    const url = request.nextUrl.clone();
-    url.pathname = ROUTES.SIGNIN;
+    const firstPathFragment = request.nextUrl.pathname.split('/')[1];
+    const currentLocale = locales.includes(firstPathFragment)
+      ? firstPathFragment
+      : '';
+    const isProtectedRoute = protectedRoutes.some((route) => {
+      return new RegExp(`^(/(${locales.join('|')}))?(${route})(/.*)?$`).test(
+        request.nextUrl.pathname
+      );
+    });
 
-    return NextResponse.redirect(url);
-  }
+    if (!isAuthenticated && isProtectedRoute) {
+      const url = request.nextUrl.clone();
+      url.pathname = currentLocale
+        ? `/${currentLocale + ROUTES.SIGNIN}`
+        : ROUTES.SIGNIN;
 
-  return supabaseResponse;
-}
+      return NextResponse.redirect(url);
+    }
+
+    return supabaseResponse;
+  };
+};

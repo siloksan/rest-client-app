@@ -30,7 +30,8 @@
       "@/*": [
         "./src/*"
       ]
-    }
+    },
+    "allowArbitraryExtensions": true
   },
   "include": [
     "next-env.d.ts",

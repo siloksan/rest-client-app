@@ -2,6 +2,7 @@
 
 import { ROUTES } from '@/constants';
 import { createBrowserSupabase } from '@/db/create-client';
+import { redirect } from '@/i18n/navigation';
 import { showSnackbar } from '@/store/snackbar/snackbar-store';
 import { LoginFormData, loginSchema } from '@/utils/form-schema';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -10,7 +11,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { redirect } from 'next/navigation';
+import { useLocale, useTranslations } from 'next-intl';
 import { useState } from 'react';
 import {
   PasswordElement,
@@ -19,6 +20,9 @@ import {
 } from 'react-hook-form-mui';
 
 export function Login() {
+  const translate = useTranslations('LoginPage');
+  const translateBtn = useTranslations('Buttons');
+  const locale = useLocale();
   const {
     control,
     handleSubmit,
@@ -53,7 +57,7 @@ export function Login() {
       <Alert severity="success">{`Authorization successfully! Hello ${userName}!`}</Alert>
     );
 
-    return redirect(ROUTES.MAIN);
+    return redirect({ href: ROUTES.MAIN, locale });
   };
 
   const { email, password } = errors;
@@ -72,7 +76,7 @@ export function Login() {
       }}
     >
       <Typography variant="h4" sx={{ mb: 2, textAlign: 'center' }}>
-        Log in
+        {translate('title')}
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
@@ -97,7 +101,7 @@ export function Login() {
             loading={submit}
             type="submit"
           >
-            Sign up
+            {translateBtn('signin')}
           </Button>
         </Box>
       </form>
