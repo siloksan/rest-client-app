@@ -65,7 +65,7 @@ export function RestClient() {
 
     setResponse({
       status: data.status,
-      data: JSON.stringify(data, null, 2)
+      data: JSON.stringify(data.data, null, 2)
     })
   }
   return (
