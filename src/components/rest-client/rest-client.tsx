@@ -29,7 +29,7 @@ export function RestClient() {
   const [headers, setHeaders] = useState<Field[]>([initialField]);
   const [queries, setQueries] = useState<Field[]>([initialField]);
   const [codeBody, setCodeBody] = useState('{}');
-  const [response] = useState<string | null>('{test: code}');
+  const [response, setResponse] = useState<{status: number, data: string} | null>(null);
 
   useEffect(() => {
     const urlBase64 = btoa(url);
@@ -57,6 +57,16 @@ export function RestClient() {
   }: ChangeEvent<HTMLInputElement>) => setUrl(value);
   const handleChangeTab = (event: SyntheticEvent, newValue: string) =>
     setTab(newValue);
+  const handleSendButton = async () => {
+    const {pathname, search} = location;
+    const response = await fetch(`/api/${pathname.split('/').slice(3).join('/')}${search}`)
+    const data = await response.json()
+
+    setResponse({
+      status: data.status,
+      data: JSON.stringify(data, null, 2)
+    })
+  }
   return (
     <Box
       sx={{ pt: '1.5em', flex: 1, display: 'flex', flexDirection: 'column' }}
@@ -89,7 +99,7 @@ export function RestClient() {
           onChange={handleChangeUrl}
           sx={{ flex: '1' }}
         />
-        <Button variant="outlined" type="submit">
+        <Button variant="outlined" type="submit" onClick={handleSendButton}>
           Send
         </Button>
       </FormControl>
@@ -109,7 +119,7 @@ export function RestClient() {
           <CodeEditor handler={setCodeBody} value={codeBody} />
         )}
       </Box>
-      {response && <ResponseField status={200} value={response} />}
+      {response && <ResponseField status={response.status} value={response.data} />}
     </Box>
   );
 }
