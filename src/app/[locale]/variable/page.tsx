@@ -1,7 +1,10 @@
 import { VariableEditor } from '@/components/variable-editor/variable-editor';
 import { Container, Typography } from '@mui/material';
+import { useTranslations } from 'next-intl';
 
-export default async function Page() {
+export default function Page() {
+  const translate = useTranslations('VariablesPage');
+
   return (
     <Container
       maxWidth="sm"
@@ -15,9 +18,15 @@ export default async function Page() {
     >
       <Typography
         variant="h1"
-        sx={{ mb: 5, textAlign: 'center', fontSize: 40 }}
+        sx={{ mb: 1, textAlign: 'center', fontSize: 40 }}
       >
-        Variables
+        {translate('title')}
+      </Typography>
+      <Typography
+        variant="body1"
+        sx={{ mb: 5, textAlign: 'center', fontSize: 20 }}
+      >
+        {translate('description')}
       </Typography>
       <VariableEditor />
     </Container>

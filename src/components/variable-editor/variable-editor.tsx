@@ -1,11 +1,15 @@
 'use client';
 
 import Box from '@mui/material/Box';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Variable } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
 import { VariableField } from '../variable-field/variable-field';
 import { useVariableStore } from '@/store/variables/variable-store-provider';
+import { LOCALE_KEYS } from '@/constants/local';
+import { showSnackbar } from '@/store/snackbar/snackbar-store';
+import Alert from '@mui/material/Alert';
+import { useTranslations } from 'next-intl';
 
 const initialField = {
   name: '',
@@ -13,39 +17,38 @@ const initialField = {
 };
 
 export function VariableEditor() {
-  const variables = useVariableStore((state) => state.variables);
-
   const deleteVariableFromStore = useVariableStore(
     (state) => state.deleteVariableFromStore
   );
 
-  const [fields, setFields] = useState<Variable[]>([
-    ...variables,
-    { ...initialField, key: uuidv4() },
-  ]);
+  const translateMessage = useTranslations('VariablesPage.messages');
+
+  const [fields, setFields] = useState<Variable[]>([]);
 
   useEffect(() => {
-    setFields([...variables, { ...initialField, key: uuidv4() }]);
-  }, [variables]);
+    const variablesString = localStorage.getItem(LOCALE_KEYS.VARIABLES);
 
-  const keysCollection = useRef(new Set<string>());
+    if (variablesString) {
+      setFields(JSON.parse(variablesString));
+    } else {
+      setFields([{ ...initialField, key: uuidv4() }]);
+    }
+  }, []);
 
   const addNewField = () => {
     setFields((prevFields) => {
-      let key = uuidv4();
-      while (keysCollection.current.has(key)) {
-        key = uuidv4();
-      }
-
-      return [...prevFields, { ...initialField, key }];
+      return [...prevFields, { ...initialField, key: uuidv4() }];
     });
   };
 
   const deleteVariable = (key: string) => {
     setFields((prevFields) => {
-      return prevFields!.filter((field) => field.key !== key);
+      return prevFields.filter((field) => field.key !== key);
     });
 
+    showSnackbar(
+      <Alert severity="success">{translateMessage('delete')}</Alert>
+    );
     deleteVariableFromStore(key);
   };
 

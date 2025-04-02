@@ -10,6 +10,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import { useVariableStore } from '@/store/variables/variable-store-provider';
 import { showSnackbar } from '@/store/snackbar/snackbar-store';
 import Alert from '@mui/material/Alert';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   variableName: string;
@@ -31,6 +32,9 @@ export function VariableField({
   const { variables, addVariable, updateVariable } = useVariableStore(
     (state) => state
   );
+
+  const translateFields = useTranslations('VariablesPage.fields');
+  const translateMessage = useTranslations('VariablesPage.messages');
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -56,7 +60,9 @@ export function VariableField({
         value,
       });
 
-      showSnackbar(<Alert severity="success">Variable updated</Alert>);
+      showSnackbar(
+        <Alert severity="success">{translateMessage('update')}</Alert>
+      );
     } else {
       addVariable({
         key: idx,
@@ -64,14 +70,16 @@ export function VariableField({
         value,
       });
 
-      showSnackbar(<Alert severity="success">Variable added</Alert>);
+      showSnackbar(
+        <Alert severity="success">{translateMessage('added')}</Alert>
+      );
     }
   };
 
   return (
     <Box sx={{ display: 'flex', gap: 1 }}>
       <TextField
-        label="Variable"
+        label={translateFields('name')}
         maxRows={6}
         variant="outlined"
         size="small"
@@ -79,7 +87,7 @@ export function VariableField({
         onChange={handleNameChange}
       />
       <TextField
-        label="Value"
+        label={translateFields('value')}
         maxRows={6}
         variant="outlined"
         size="small"
