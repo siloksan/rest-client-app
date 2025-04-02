@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { useScrollState } from '@/hooks';
 import { useLocale, useTranslations } from 'next-intl';
 import { LanguageSwitcher } from '../language-switcher/language-switcher';
+import Image from 'next/image';
 
 interface Props {
   initialUserName: string | null;
@@ -70,7 +71,9 @@ export function Header({ initialUserName }: Props) {
       }}
     >
       <Button>
-        <Link href={ROUTES.MAIN}>logo</Link>
+        <Link href={ROUTES.MAIN}>
+          <Image src="logo.svg" height={40} width={150} alt="logo" />
+        </Link>
       </Button>
       <LanguageSwitcher />
       <Box sx={{ display: 'flex', gap: 2 }}>
