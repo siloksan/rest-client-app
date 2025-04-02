@@ -9,6 +9,7 @@ import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { getMessages, setRequestLocale } from 'next-intl/server';
+import { Footer } from '@/components/footer/footer';
 
 export default async function RootLayout({
   children,
@@ -38,6 +39,7 @@ export default async function RootLayout({
         <ThemeProvider theme={theme}>
           <Header initialUserName={userName} />
           {children}
+          <Footer />
           <SnackbarContainer />
         </ThemeProvider>
       </AppRouterCacheProvider>
