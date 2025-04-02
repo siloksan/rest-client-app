@@ -20,6 +20,7 @@ import { ResponseField } from '../response-field/response-field';
 import { Methods } from '@/types';
 import { useRouter } from 'next/navigation';
 import { bytesToBase64 } from '@/utils/converterBase64';
+import { useTranslations } from 'next-intl';
 
 export function RestClient() {
   const tabs = ['Headers', 'Query', 'Body'];
@@ -31,11 +32,14 @@ export function RestClient() {
   const [queries, setQueries] = useState<Field[]>([initialField]);
   const [codeBody, setCodeBody] = useState('{}');
   const [response, setResponse] = useState<{status: number, data: string} | null>(null);
+  const translate = useTranslations('RestCards');
+  const translateRestClient = useTranslations('RestClient');
+  const translateBtn = useTranslations('Buttons');
 
   useEffect(() => {
     const urlBase64 = bytesToBase64(new TextEncoder().encode(url));
     const searchParams = new URLSearchParams();
-    let nextUrl = `/en/rest-client/${method}/${urlBase64}`;
+    let nextUrl = `/${location.pathname.split('/')[1]}/rest-client/${method}/${urlBase64}`;
 
     if(method !== Methods.GET){
       const bodyBase64 = bytesToBase64(new TextEncoder().encode(codeBody));
@@ -73,13 +77,15 @@ export function RestClient() {
       sx={{ pt: '1.5em', flex: 1, display: 'flex', flexDirection: 'column' }}
     >
       <Typography align="center" variant="h5" mb={'.5em'}>
-        REST Client
+        {translate('client.title')}
       </Typography>
       <FormControl
         sx={{ display: 'flex', flexDirection: 'row', gap: '.5em' }}
         fullWidth
       >
-        <InputLabel id="method-label">Method</InputLabel>
+        <InputLabel id="method-label">
+          {translateRestClient('method')}
+        </InputLabel>
         <Select
           labelId="method-label"
           value={method}
@@ -101,7 +107,7 @@ export function RestClient() {
           sx={{ flex: '1' }}
         />
         <Button variant="outlined" type="submit" onClick={handleSendButton}>
-          Send
+          {translateBtn('send')}
         </Button>
       </FormControl>
       <Box>
