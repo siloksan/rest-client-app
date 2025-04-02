@@ -71,7 +71,9 @@ export function Header({ initialUserName }: Props) {
       }}
     >
       <Button>
-        <Link href={ROUTES.MAIN}><Image src="logo.svg" height={40} width={150} alt='logo'/></Link>
+        <Link href={ROUTES.MAIN}>
+          <Image src="logo.svg" height={40} width={150} alt="logo" />
+        </Link>
       </Button>
       <LanguageSwitcher />
       <Box sx={{ display: 'flex', gap: 2 }}>
