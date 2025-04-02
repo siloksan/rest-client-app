@@ -17,6 +17,10 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "types": [
+      "vitest/globals",
+      "@types/react-dom"
+    ],
     "plugins": [
       {
         "name": "next"
@@ -26,7 +30,8 @@
       "@/*": [
         "./src/*"
       ]
-    }
+    },
+    "allowArbitraryExtensions": true
   },
   "include": [
     "next-env.d.ts",
@@ -35,6 +40,7 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    ".next",
   ]
 }

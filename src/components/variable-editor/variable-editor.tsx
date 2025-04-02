@@ -7,14 +7,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { VariableField } from '../variable-field/variable-field';
 import { useVariableStore } from '@/store/variables/variable-store-provider';
 
-const initialFields = {
+const initialField = {
   name: '',
   value: '',
 };
 
 export function VariableEditor() {
   const variables = useVariableStore((state) => state.variables);
-  console.log('variables: ', variables);
 
   const deleteVariableFromStore = useVariableStore(
     (state) => state.deleteVariableFromStore
@@ -22,11 +21,11 @@ export function VariableEditor() {
 
   const [fields, setFields] = useState<Variable[]>([
     ...variables,
-    { ...initialFields, key: uuidv4() },
+    { ...initialField, key: uuidv4() },
   ]);
 
   useEffect(() => {
-    setFields([...variables, { ...initialFields, key: uuidv4() }]);
+    setFields([...variables, { ...initialField, key: uuidv4() }]);
   }, [variables]);
 
   const keysCollection = useRef(new Set<string>());
@@ -38,7 +37,7 @@ export function VariableEditor() {
         key = uuidv4();
       }
 
-      return [...prevFields, { ...initialFields, key }];
+      return [...prevFields, { ...initialField, key }];
     });
   };
 

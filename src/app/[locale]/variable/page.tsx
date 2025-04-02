@@ -1,7 +1,7 @@
 import { VariableEditor } from '@/components/variable-editor/variable-editor';
 import { Container, Typography } from '@mui/material';
 
-export default async function Variable() {
+export default async function Page() {
   return (
     <Container
       maxWidth="sm"
