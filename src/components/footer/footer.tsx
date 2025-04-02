@@ -24,8 +24,7 @@ export function Footer() {
     <Box
       component="footer"
       sx={{
-        position: 'fixed',
-        bottom: 0,
+        marginTop: 'auto',
         padding: '5px 26px',
         display: 'flex',
         flexDirection: { xs: 'column', sm: 'row' },
