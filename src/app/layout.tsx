@@ -48,6 +48,9 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
+      <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+      </head>
       <body
         className={`${inter.variable} ${jetBrainsMono.variable} ${roboto.variable}`}
       >
