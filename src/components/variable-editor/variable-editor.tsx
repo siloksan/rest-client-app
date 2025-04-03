@@ -6,10 +6,11 @@ import { Variable } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
 import { VariableField } from '../variable-field/variable-field';
 import { useVariableStore } from '@/store/variables/variable-store-provider';
-import { LOCALE_KEYS } from '@/constants/local';
+import { LOCALE_KEYS } from '@/constants/locale-keys';
 import { showSnackbar } from '@/store/snackbar/snackbar-store';
 import Alert from '@mui/material/Alert';
 import { useTranslations } from 'next-intl';
+import Button from '@mui/material/Button';
 
 const initialField = {
   name: '',
@@ -22,6 +23,7 @@ export function VariableEditor() {
   );
 
   const translateMessage = useTranslations('VariablesPage.messages');
+  const translateButtons = useTranslations('VariablesPage.buttons');
 
   const [fields, setFields] = useState<Variable[]>([]);
 
@@ -60,10 +62,12 @@ export function VariableEditor() {
           idx={key}
           variableName={name}
           variableValue={value}
-          addNewField={addNewField}
           deleteVariable={deleteVariable}
         />
       ))}
+      <Button onClick={addNewField} variant="outlined">
+        {translateButtons('addField')}
+      </Button>
     </Box>
   );
 }

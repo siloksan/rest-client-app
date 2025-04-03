@@ -3,7 +3,7 @@ export enum Methods {
   POST = 'POST',
   DELETE = 'DELETE',
   PUT = 'PUT',
-  PATH = 'PATH',
+  PATCH = 'PATCH',
 }
 
 export interface Variable {

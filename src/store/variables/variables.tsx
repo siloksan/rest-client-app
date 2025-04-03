@@ -1,6 +1,6 @@
 'use client';
 
-import { LOCALE_KEYS } from '@/constants/local';
+import { LOCALE_KEYS } from '@/constants/locale-keys';
 import { Variable } from '@/types';
 import { createStore } from 'zustand/vanilla';
 

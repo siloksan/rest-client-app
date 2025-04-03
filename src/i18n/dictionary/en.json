@@ -62,6 +62,9 @@
   "VariablesPage": {
     "title": "Variables",
     "description": "Manage variables for easy value substitution in requests.",
+    "buttons": {
+      "addField": "Add variable"
+    },
     "fields": {
       "name": "Variable",
       "value": "Value"

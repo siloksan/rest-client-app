@@ -24,7 +24,7 @@ export default function Page() {
       </Typography>
       <Typography
         variant="body1"
-        sx={{ mb: 5, textAlign: 'center', fontSize: 20 }}
+        sx={{ mb: 2, textAlign: 'center', fontSize: 20 }}
       >
         {translate('description')}
       </Typography>

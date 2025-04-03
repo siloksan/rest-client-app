@@ -5,7 +5,6 @@ import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 import { useVariableStore } from '@/store/variables/variable-store-provider';
 import { showSnackbar } from '@/store/snackbar/snackbar-store';
@@ -15,7 +14,6 @@ import { useTranslations } from 'next-intl';
 interface Props {
   variableName: string;
   variableValue: string;
-  addNewField: () => void;
   deleteVariable: (key: string) => void;
   idx: string;
 }
@@ -23,7 +21,6 @@ interface Props {
 export function VariableField({
   variableName = '',
   variableValue = '',
-  addNewField,
   deleteVariable,
   idx,
 }: Props) {
@@ -77,7 +74,14 @@ export function VariableField({
   };
 
   return (
-    <Box sx={{ display: 'flex', gap: 1 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '100%',
+        gap: 0.5,
+      }}
+    >
       <TextField
         label={translateFields('name')}
         maxRows={6}
@@ -100,9 +104,6 @@ export function VariableField({
         onClick={() => deleteVariable(idx)}
       >
         <DeleteForeverIcon fontSize="inherit" />
-      </IconButton>
-      <IconButton aria-label="add" size="medium" onClick={addNewField}>
-        <AddIcon fontSize="inherit" />
       </IconButton>
       <IconButton
         aria-label="add"
