@@ -1,6 +1,6 @@
 'use client';
 
-import { LOCALE_KEYS } from '@/constants/locale-keys';
+import { LOCAL_KEYS } from '@/constants/local-keys';
 import { Variable } from '@/types';
 import { createStore } from 'zustand/vanilla';
 
@@ -11,7 +11,6 @@ interface VariablesState {
 export interface VariablesActions {
   addVariable: (variable: Variable) => void;
   deleteVariableFromStore: (key: Variable['key']) => void;
-  changeActiveFlag: (active: boolean, key: Variable['key']) => void;
   loadFromLocalStorage: () => void;
   updateVariable: (variable: Variable) => void;
 }
@@ -31,7 +30,7 @@ export const createVariableStore = (
       set((state) => {
         const updatedVariables = [...state.variables, variable];
         localStorage.setItem(
-          LOCALE_KEYS.VARIABLES,
+          LOCAL_KEYS.VARIABLES,
           JSON.stringify(updatedVariables)
         );
 
@@ -46,7 +45,7 @@ export const createVariableStore = (
         );
 
         localStorage.setItem(
-          LOCALE_KEYS.VARIABLES,
+          LOCAL_KEYS.VARIABLES,
           JSON.stringify(updatedVariables)
         );
 
@@ -65,26 +64,7 @@ export const createVariableStore = (
         });
 
         localStorage.setItem(
-          LOCALE_KEYS.VARIABLES,
-          JSON.stringify(updatedVariables)
-        );
-
-        return { variables: updatedVariables };
-      });
-    },
-
-    changeActiveFlag: (active: boolean, key: Variable['key']) => {
-      set((state) => {
-        const updatedVariables = state.variables.map((variable) => {
-          if (variable.key === key) {
-            return { ...variable, active };
-          }
-
-          return variable;
-        });
-
-        localStorage.setItem(
-          LOCALE_KEYS.VARIABLES,
+          LOCAL_KEYS.VARIABLES,
           JSON.stringify(updatedVariables)
         );
 
@@ -93,7 +73,8 @@ export const createVariableStore = (
     },
 
     loadFromLocalStorage: () => {
-      const storedValueString = localStorage.getItem(LOCALE_KEYS.VARIABLES);
+      const storedValueString = localStorage.getItem(LOCAL_KEYS.VARIABLES);
+      console.log('storedValueString: ', storedValueString);
       if (storedValueString) {
         set({ variables: JSON.parse(storedValueString) });
       }

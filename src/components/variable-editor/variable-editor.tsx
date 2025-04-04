@@ -6,7 +6,7 @@ import { Variable } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
 import { VariableField } from '../variable-field/variable-field';
 import { useVariableStore } from '@/store/variables/variable-store-provider';
-import { LOCALE_KEYS } from '@/constants/locale-keys';
+import { LOCAL_KEYS } from '@/constants/local-keys';
 import { showSnackbar } from '@/store/snackbar/snackbar-store';
 import Alert from '@mui/material/Alert';
 import { useTranslations } from 'next-intl';
@@ -28,7 +28,7 @@ export function VariableEditor() {
   const [fields, setFields] = useState<Variable[]>([]);
 
   useEffect(() => {
-    const variablesString = localStorage.getItem(LOCALE_KEYS.VARIABLES);
+    const variablesString = localStorage.getItem(LOCAL_KEYS.VARIABLES);
 
     if (variablesString) {
       setFields(JSON.parse(variablesString));
