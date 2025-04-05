@@ -6,15 +6,16 @@ import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import SaveIcon from '@mui/icons-material/Save';
-import { useVariableStore } from '@/store/variables/variable-store-provider';
-import { showSnackbar } from '@/store/snackbar/snackbar-store';
-import Alert from '@mui/material/Alert';
 import { useTranslations } from 'next-intl';
+import { Variable } from '@/types';
 
 interface Props {
   variableName: string;
   variableValue: string;
   deleteVariable: (key: string) => void;
+  addVariable: (variable: Variable) => void;
+  updateVariable: (variable: Variable) => void;
+  variables: Variable[];
   idx: string;
 }
 
@@ -22,16 +23,14 @@ export function VariableField({
   variableName = '',
   variableValue = '',
   deleteVariable,
+  addVariable,
+  updateVariable,
+  variables,
   idx,
 }: Props) {
   const [name, setName] = useState(variableName);
   const [value, setValue] = useState(variableValue);
-  const { variables, addVariable, updateVariable } = useVariableStore(
-    (state) => state
-  );
-
   const translateFields = useTranslations('VariablesPage.fields');
-  const translateMessage = useTranslations('VariablesPage.messages');
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -56,20 +55,12 @@ export function VariableField({
         name,
         value,
       });
-
-      showSnackbar(
-        <Alert severity="success">{translateMessage('update')}</Alert>
-      );
     } else {
       addVariable({
         key: idx,
         name,
         value,
       });
-
-      showSnackbar(
-        <Alert severity="success">{translateMessage('added')}</Alert>
-      );
     }
   };
 

@@ -10,10 +10,6 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { Footer } from '@/components/footer/footer';
-import {
-  LoadVariablesFromLocalStorage,
-  VariablesStoreProvider,
-} from '@/store/variables/variable-store-provider';
 
 export default async function RootLayout({
   children,
@@ -40,15 +36,12 @@ export default async function RootLayout({
   return (
     <NextIntlClientProvider messages={messages}>
       <AppRouterCacheProvider>
-        <VariablesStoreProvider>
-          <ThemeProvider theme={theme}>
-            <Header initialUserName={userName} />
-            {children}
-            <Footer />
-            <SnackbarContainer />
-            <LoadVariablesFromLocalStorage />
-          </ThemeProvider>
-        </VariablesStoreProvider>
+        <ThemeProvider theme={theme}>
+          <Header initialUserName={userName} />
+          {children}
+          <Footer />
+          <SnackbarContainer />
+        </ThemeProvider>
       </AppRouterCacheProvider>
     </NextIntlClientProvider>
   );
