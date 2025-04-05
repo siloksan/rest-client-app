@@ -5,7 +5,7 @@ export function base64ToBytes(base64: string): Uint8Array {
 
 export function bytesToBase64(bytes: Uint8Array): string {
   const binString = Array.from(bytes, (byte) =>
-    String.fromCodePoint(byte),
-  ).join("");
+    String.fromCodePoint(byte)
+  ).join('');
   return btoa(binString);
 }
