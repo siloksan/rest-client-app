@@ -3,9 +3,10 @@
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { Variable } from '@/types';
+import { LOCAL_KEYS } from '@/constants/local-keys';
+import { useLocalStorage } from '@/hooks';
 import { v4 as uuidv4 } from 'uuid';
 import { VariableField } from '../variable-field/variable-field';
-import { LOCAL_KEYS } from '@/constants/local-keys';
 import { showSnackbar } from '@/store/snackbar/snackbar-store';
 import Alert from '@mui/material/Alert';
 import { useTranslations } from 'next-intl';
@@ -15,7 +16,6 @@ import {
   deleteVariableFromLocalStorage,
   updateVariableInLocalStorage,
 } from './variable-editor.utils';
-import { useLocalStorage } from '@/hooks';
 
 const initialField = {
   name: '',
