@@ -21,14 +21,15 @@ import { Methods, Variable } from '@/types';
 import { useRouter } from 'next/navigation';
 import { bytesToBase64 } from '@/utils/converterBase64';
 import { useTranslations } from 'next-intl';
-import { LOCAL_KEYS } from '@/constants/local-keys';
+import { LOCAL_KEYS } from '@/constants';
 import { useLocalStorage } from '@/hooks';
 import { replaceVariables } from '@/utils';
+import { CodeGenerator } from '../code-generator/code-generatore';
 
 export function RestClient() {
   const tabs = ['Headers', 'Query', 'Body'];
   const router = useRouter();
-  const [method, setMethod] = useState<string>(Methods.GET);
+  const [method, setMethod] = useState<Methods>(Methods.GET);
   const [url, setUrl] = useState('');
   const [tab, setTab] = useState<string>(tabs[0]);
   const [headers, setHeaders] = useState<Field[]>([initialField]);
@@ -73,10 +74,10 @@ export function RestClient() {
     });
     nextUrl += `?${searchParams.toString()}`;
     router.push(nextUrl);
-  }, [codeBody, headers, method, router, url]);
+  }, [codeBody, headers, method, router, url, variables]);
 
   const handleChangeMethod = ({ target: { value } }: SelectChangeEvent) => {
-    setMethod(value);
+    setMethod(value as Methods);
   };
   const handleChangeUrl = ({
     target: { value },
@@ -149,6 +150,12 @@ export function RestClient() {
           <CodeEditor handler={setCodeBody} value={codeBody} />
         )}
       </Box>
+      <CodeGenerator
+        method={method}
+        url={url}
+        body={codeBody}
+        headers={headers}
+      />
       {response && (
         <ResponseField status={response.status} value={response.data} />
       )}

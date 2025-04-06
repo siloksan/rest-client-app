@@ -3,7 +3,7 @@
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { Variable } from '@/types';
-import { LOCAL_KEYS } from '@/constants/local-keys';
+import { LOCAL_KEYS } from '@/constants';
 import { useLocalStorage } from '@/hooks';
 import { v4 as uuidv4 } from 'uuid';
 import { VariableField } from '../variable-field/variable-field';
