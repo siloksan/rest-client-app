@@ -1,4 +1,4 @@
-import { Methods, Variable } from '@/types';
+import { Variable } from '@/types';
 import { Field } from '../fields/fields';
 import { useState } from 'react';
 import { CODE_GENERATOR_LANGUAGES, LOCAL_KEYS } from '@/constants';
@@ -21,7 +21,7 @@ import { CodeEditor } from '../code-editor/code-editor';
 import { createRequest } from '@/utils';
 
 export interface CodeGeneratorProps {
-  method: Methods;
+  method: string;
   url: string;
   headers: Field[];
   body: string;
