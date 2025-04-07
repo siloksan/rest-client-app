@@ -73,7 +73,7 @@ export function RestClient() {
     });
     nextUrl += `?${searchParams.toString()}`;
     router.push(nextUrl);
-  }, [codeBody, headers, method, router, url]);
+  }, [codeBody, headers, method, router, url, variables]);
 
   const handleChangeMethod = ({ target: { value } }: SelectChangeEvent) => {
     setMethod(value);
