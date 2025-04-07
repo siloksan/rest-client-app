@@ -21,19 +21,21 @@ import { Methods, Variable } from '@/types';
 import { useRouter } from 'next/navigation';
 import { bytesToBase64 } from '@/utils/converterBase64';
 import { useTranslations } from 'next-intl';
+import useUrlData from '@/hooks/use-url-data';
 import { LOCAL_KEYS } from '@/constants/local-keys';
 import { useLocalStorage } from '@/hooks';
 import { replaceVariables } from '@/utils';
 
 export function RestClient() {
+  const dataFromUrl = useUrlData();
   const tabs = ['Headers', 'Query', 'Body'];
   const router = useRouter();
-  const [method, setMethod] = useState<string>(Methods.GET);
-  const [url, setUrl] = useState('');
+  const [method, setMethod] = useState<string>(dataFromUrl.method || Methods.GET);
+  const [url, setUrl] = useState(dataFromUrl.url);
   const [tab, setTab] = useState<string>(tabs[0]);
-  const [headers, setHeaders] = useState<Field[]>([initialField]);
+  const [headers, setHeaders] = useState<Field[]>(dataFromUrl.headers || [initialField]);
   const [queries, setQueries] = useState<Field[]>([initialField]);
-  const [codeBody, setCodeBody] = useState('{}');
+  const [codeBody, setCodeBody] = useState(dataFromUrl.body);
   const [response, setResponse] = useState<{
     status: number;
     data: string;
@@ -59,7 +61,8 @@ export function RestClient() {
       );
       nextUrl += `/${bodyBase64}`;
     }
-    headers.map((header) => {
+    
+    headers.forEach((header) => {
       if (header.isActive) {
         const headerWithVariableValue = replaceVariables(
           header.value,
@@ -71,6 +74,7 @@ export function RestClient() {
         );
       }
     });
+    
     nextUrl += `?${searchParams.toString()}`;
     router.push(nextUrl);
   }, [codeBody, headers, method, router, url, variables]);
@@ -78,11 +82,14 @@ export function RestClient() {
   const handleChangeMethod = ({ target: { value } }: SelectChangeEvent) => {
     setMethod(value);
   };
+
   const handleChangeUrl = ({
     target: { value },
   }: ChangeEvent<HTMLInputElement>) => setUrl(value);
+
   const handleChangeTab = (event: SyntheticEvent, newValue: string) =>
     setTab(newValue);
+
   const handleSendButton = async () => {
     const { pathname, search } = location;
     const response = await fetch(
@@ -95,6 +102,7 @@ export function RestClient() {
       data: JSON.stringify(data.data, null, 2),
     });
   };
+
   return (
     <Box
       sx={{ pt: '1.5em', flex: 1, display: 'flex', flexDirection: 'column' }}
