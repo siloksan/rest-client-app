@@ -114,7 +114,11 @@ export function CodeGenerator({
             Generate Code
           </Button>
         </AccordionActions>
-        <CodeEditor value={snippet} extensions={[language.extension()]} />
+        <CodeEditor
+          value={snippet}
+          extensions={[language.extension()]}
+          editable={false}
+        />
       </Accordion>
     </section>
   );
