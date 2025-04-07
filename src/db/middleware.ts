@@ -4,7 +4,7 @@ import { keySupabase, urlSupabase } from './supabase.credentials';
 import { locales, ROUTES } from '@/constants';
 import { MiddlewareFactory } from '@/middleware';
 
-const protectedRoutes = [ROUTES.REST_CLIENT];
+const protectedRoutes = [ROUTES.REST_CLIENT, ROUTES.HISTORY, ROUTES.VARIABLE];
 
 export const withAuth: MiddlewareFactory = (nextMiddleware) => {
   return async (request: NextRequest, event: NextFetchEvent) => {

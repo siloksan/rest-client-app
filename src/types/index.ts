@@ -5,3 +5,9 @@ export enum Methods {
   PUT = 'PUT',
   PATCH = 'PATCH',
 }
+
+export interface Variable {
+  key: string;
+  name: string;
+  value: string;
+}

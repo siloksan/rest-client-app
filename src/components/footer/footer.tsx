@@ -79,7 +79,7 @@ export function Footer() {
         href="https://rs.school/courses/reactjs"
       >
         <Image
-          src="rss-logo.svg"
+          src="/rss-logo.svg"
           alt="rs-school"
           width={40}
           height={40}

@@ -17,11 +17,14 @@ import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
 import { initialField, Field, Fields } from '../fields/fields';
 import { CodeEditor } from '../code-editor/code-editor';
 import { ResponseField } from '../response-field/response-field';
-import { Methods } from '@/types';
+import { Methods, Variable } from '@/types';
 import { useRouter } from 'next/navigation';
 import { bytesToBase64 } from '@/utils/converterBase64';
 import { useTranslations } from 'next-intl';
 import useUrlData from '@/hooks/use-url-data';
+import { LOCAL_KEYS } from '@/constants/local-keys';
+import { useLocalStorage } from '@/hooks';
+import { replaceVariables } from '@/utils';
 
 export function RestClient() {
   const dataFromUrl = useUrlData();
@@ -37,27 +40,44 @@ export function RestClient() {
     status: number;
     data: string;
   } | null>(null);
+  const { storedValue: variables } = useLocalStorage<Variable[]>(
+    LOCAL_KEYS.VARIABLES,
+    []
+  );
   const translate = useTranslations('RestCards');
   const translateRestClient = useTranslations('RestClient');
   const translateBtn = useTranslations('Buttons');
 
   useEffect(() => {
-    const urlBase64 = bytesToBase64(new TextEncoder().encode(url));
+    const urlWithVariables = replaceVariables(url, variables);
+    const urlBase64 = bytesToBase64(new TextEncoder().encode(urlWithVariables));
     const searchParams = new URLSearchParams();
     let nextUrl = `/${location.pathname.split('/')[1]}/rest-client/${method}/${urlBase64}`;
 
     if (method !== Methods.GET) {
-      const bodyBase64 = bytesToBase64(new TextEncoder().encode(codeBody));
+      const bodyWithVariables = replaceVariables(codeBody, variables);
+      const bodyBase64 = bytesToBase64(
+        new TextEncoder().encode(bodyWithVariables)
+      );
       nextUrl += `/${bodyBase64}`;
     }
+    
     headers.forEach((header) => {
       if (header.isActive) {
-        searchParams.set(header.fieldKey, encodeURIComponent(header.value));
+        const headerWithVariableValue = replaceVariables(
+          header.value,
+          variables
+        );
+        searchParams.set(
+          header.fieldKey,
+          encodeURIComponent(headerWithVariableValue)
+        );
       }
     });
+    
     nextUrl += `?${searchParams.toString()}`;
     router.push(nextUrl);
-  }, [codeBody, headers, method, router, url]);
+  }, [codeBody, headers, method, router, url, variables]);
 
   const handleChangeMethod = ({ target: { value } }: SelectChangeEvent) => {
     setMethod(value);
