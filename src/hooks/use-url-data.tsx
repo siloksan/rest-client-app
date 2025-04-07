@@ -1,7 +1,6 @@
 import { Field, initialField } from "@/components/fields/fields";
 import { base64ToBytes } from "@/utils/converterBase64";
-import { useParams } from "next/navigation";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useParams } from "next/navigation";
 
 export default function useUrlData(){
   const {slug} = useParams<{slug: string[]}>();

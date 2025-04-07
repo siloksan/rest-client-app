@@ -50,7 +50,7 @@ export function RestClient() {
       const bodyBase64 = bytesToBase64(new TextEncoder().encode(codeBody));
       nextUrl += `/${bodyBase64}`;
     }
-    headers.map((header) => {
+    headers.forEach((header) => {
       if (header.isActive) {
         searchParams.set(header.fieldKey, encodeURIComponent(header.value));
       }
@@ -62,11 +62,14 @@ export function RestClient() {
   const handleChangeMethod = ({ target: { value } }: SelectChangeEvent) => {
     setMethod(value);
   };
+
   const handleChangeUrl = ({
     target: { value },
   }: ChangeEvent<HTMLInputElement>) => setUrl(value);
+
   const handleChangeTab = (event: SyntheticEvent, newValue: string) =>
     setTab(newValue);
+
   const handleSendButton = async () => {
     const { pathname, search } = location;
     const response = await fetch(
@@ -79,6 +82,7 @@ export function RestClient() {
       data: JSON.stringify(data.data, null, 2),
     });
   };
+
   return (
     <Box
       sx={{ pt: '1.5em', flex: 1, display: 'flex', flexDirection: 'column' }}
