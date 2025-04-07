@@ -24,7 +24,7 @@ import { useTranslations } from 'next-intl';
 import { LOCAL_KEYS } from '@/constants';
 import { useLocalStorage } from '@/hooks';
 import { replaceVariables } from '@/utils';
-import { CodeGenerator } from '../code-generator/code-generatore';
+import { CodeGenerator } from '../code-generator/code-generator';
 
 export function RestClient() {
   const tabs = ['Headers', 'Query', 'Body'];

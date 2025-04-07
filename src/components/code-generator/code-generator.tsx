@@ -3,8 +3,6 @@ import { Field } from '../fields/fields';
 import { useState } from 'react';
 import { CODE_GENERATOR_LANGUAGES, LOCAL_KEYS } from '@/constants';
 import { useLocalStorage } from '@/hooks';
-import { replaceVariables } from '@/utils';
-import { Request, Header, RequestBody } from 'postman-collection';
 import { showSnackbar } from '@/store/snackbar/snackbar-store';
 import * as codegen from 'postman-code-generators';
 import Alert from '@mui/material/Alert';
@@ -20,15 +18,21 @@ import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { CodeEditor } from '../code-editor/code-editor';
+import { createRequest } from '@/utils';
 
-interface Props {
+export interface CodeGeneratorProps {
   method: Methods;
   url: string;
   headers: Field[];
   body: string;
 }
 
-export function CodeGenerator({ method, url, headers, body }: Props) {
+export function CodeGenerator({
+  method,
+  url,
+  headers,
+  body,
+}: CodeGeneratorProps) {
   const [language, setLanguage] = useState(CODE_GENERATOR_LANGUAGES[0]);
 
   const { storedValue: variables } = useLocalStorage<Variable[]>(
@@ -38,39 +42,9 @@ export function CodeGenerator({ method, url, headers, body }: Props) {
 
   const [snippet, setSnippet] = useState('');
 
-  const createRequest = () => {
-    if (!url) {
-      return null;
-    }
-
-    const requestHeaders = headers
-      .filter((header) => header.isActive)
-      .map(({ fieldKey, value }) => {
-        return new Header({
-          key: fieldKey,
-          value: replaceVariables(value, variables),
-        });
-      });
-
-    const requestBody =
-      method !== Methods.GET
-        ? new RequestBody({
-            mode: 'raw',
-            raw: replaceVariables(body, variables),
-          })
-        : undefined;
-
-    return new Request({
-      method,
-      url: replaceVariables(url, variables),
-      header: requestHeaders,
-      body: requestBody,
-    });
-  };
-
   const generateCode = () => {
-    const request = createRequest();
-    console.log('request: ', request);
+    const request = createRequest({ body, headers, method, url, variables });
+
     if (!request) {
       setSnippet('// Please provide a valid data');
       showSnackbar(<Alert severity="error">Generate code is failed</Alert>);
@@ -86,9 +60,9 @@ export function CodeGenerator({ method, url, headers, body }: Props) {
         indentType: 'Space',
         trimRequestBody: true,
       },
-      (err, generatedCode) => {
-        if (err || !generatedCode) {
-          setSnippet(`// Failed to generate code: ${err?.message}`);
+      (error, generatedCode) => {
+        if (error || !generatedCode) {
+          setSnippet(`// Failed to generate code: ${error?.message}`);
           showSnackbar(<Alert severity="error">Generate code is failed</Alert>);
         } else {
           setSnippet(generatedCode);
@@ -108,7 +82,7 @@ export function CodeGenerator({ method, url, headers, body }: Props) {
   };
 
   return (
-    <div>
+    <section>
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -142,6 +116,6 @@ export function CodeGenerator({ method, url, headers, body }: Props) {
         </AccordionActions>
         <CodeEditor value={snippet} extensions={[language.extension()]} />
       </Accordion>
-    </div>
+    </section>
   );
 }

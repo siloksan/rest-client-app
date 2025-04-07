@@ -9,7 +9,7 @@ export const CODE_GENERATOR_LANGUAGES = [
     label: 'cURL',
     name: 'curl',
     variant: 'curl',
-    extension: () => cpp(), // closest match
+    extension: () => cpp(),
   },
   {
     label: 'JavaScript (Fetch)',
