@@ -6,11 +6,6 @@ import { useLocalStorage } from '@/hooks';
 import { showSnackbar } from '@/store/snackbar/snackbar-store';
 import * as codegen from 'postman-code-generators';
 import Alert from '@mui/material/Alert';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Typography from '@mui/material/Typography';
-import AccordionActions from '@mui/material/AccordionActions';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -25,6 +20,8 @@ export interface CodeGeneratorProps {
   url: string;
   headers: Field[];
   body: string;
+  snippet: string;
+  setSnippet: (snippet: string) => void;
 }
 
 export function CodeGenerator({
@@ -32,6 +29,8 @@ export function CodeGenerator({
   url,
   headers,
   body,
+  snippet,
+  setSnippet,
 }: CodeGeneratorProps) {
   const [language, setLanguage] = useState(CODE_GENERATOR_LANGUAGES[0]);
 
@@ -39,8 +38,6 @@ export function CodeGenerator({
     LOCAL_KEYS.VARIABLES,
     []
   );
-
-  const [snippet, setSnippet] = useState('');
 
   const generateCode = () => {
     const request = createRequest({ body, headers, method, url, variables });
@@ -83,43 +80,42 @@ export function CodeGenerator({
 
   return (
     <section>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel-content"
-          id="panel-header"
-        >
-          <Typography component="span">Code Generator</Typography>
-        </AccordionSummary>
-        <AccordionActions>
-          <Box sx={{ width: 180 }}>
-            <FormControl fullWidth size="small">
-              <InputLabel id="language-select">Language</InputLabel>
-              <Select
-                labelId="language-select"
-                id="language-select"
-                value={language.label}
-                label="Language"
-                onChange={handleChange}
-              >
-                {CODE_GENERATOR_LANGUAGES.map((language) => (
-                  <MenuItem key={language.label} value={language.label}>
-                    {language.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Box>
-          <Button variant="outlined" onClick={generateCode}>
-            Generate Code
-          </Button>
-        </AccordionActions>
-        <CodeEditor
-          value={snippet}
-          extensions={[language.extension()]}
-          editable={false}
-        />
-      </Accordion>
+      <CodeEditor
+        value={snippet}
+        extensions={[language.extension()]}
+        editable={false}
+      />
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          mt: 2,
+          gap: 1,
+          flexWrap: 'wrap',
+        }}
+      >
+        <Box sx={{ width: 180 }}>
+          <FormControl fullWidth size="small">
+            <InputLabel id="language-select">Language</InputLabel>
+            <Select
+              labelId="language-select"
+              id="language-select"
+              value={language.label}
+              label="Language"
+              onChange={handleChange}
+            >
+              {CODE_GENERATOR_LANGUAGES.map((language) => (
+                <MenuItem key={language.label} value={language.label}>
+                  {language.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+        <Button variant="outlined" onClick={generateCode}>
+          Generate Code
+        </Button>
+      </Box>
     </section>
   );
 }

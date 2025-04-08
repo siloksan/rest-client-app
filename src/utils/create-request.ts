@@ -3,7 +3,7 @@ import { replaceVariables } from './replace-variables';
 import { Methods, Variable } from '@/types';
 import { Header, RequestBody, Request } from 'postman-collection';
 
-interface Arguments extends CodeGeneratorProps {
+interface Arguments extends Omit<CodeGeneratorProps, 'snippet' | 'setSnippet'> {
   variables: Variable[];
 }
 
