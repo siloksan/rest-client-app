@@ -1,6 +1,6 @@
 import { renderHook, act } from '@testing-library/react';
 import { useLocalStorage } from './use-local-storage';
-import { LOCAL_KEYS } from '@/constants/local-keys';
+import { LOCAL_KEYS } from '@/constants';
 
 describe('useLocalStorage', () => {
   const defaultValue = 'testValue';

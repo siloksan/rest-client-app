@@ -1,7 +1,7 @@
 export function base64ToBytes(base64: string): Uint8Array {
   let binString: string;
 
-  try{
+  try {
     binString = atob(base64);
   } catch {
     binString = '';

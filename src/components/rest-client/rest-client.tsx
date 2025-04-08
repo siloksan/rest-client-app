@@ -25,17 +25,30 @@ import useUrlData from '@/hooks/use-url-data';
 import { LOCAL_KEYS } from '@/constants/local-keys';
 import { useLocalStorage } from '@/hooks';
 import { replaceVariables } from '@/utils';
+import { CodeGenerator } from '../code-generator/code-generator';
+
+const TABS = {
+  HEADERS: 'Headers',
+  GENERATOR: 'Code Generator',
+  BODY: 'Body',
+} as const;
 
 export function RestClient() {
   const dataFromUrl = useUrlData();
-  const tabs = ['Headers', 'Query', 'Body'];
+  const tabs = [TABS.HEADERS, TABS.GENERATOR, TABS.BODY];
   const router = useRouter();
-  const [method, setMethod] = useState<string>(dataFromUrl.method || Methods.GET);
+  const [method, setMethod] = useState<string>(
+    dataFromUrl.method || Methods.GET
+  );
   const [url, setUrl] = useState(dataFromUrl.url);
   const [tab, setTab] = useState<string>(tabs[0]);
-  const [headers, setHeaders] = useState<Field[]>(dataFromUrl.headers || [initialField]);
-  const [queries, setQueries] = useState<Field[]>([initialField]);
+  const [headers, setHeaders] = useState<Field[]>(
+    dataFromUrl.headers || [initialField]
+  );
+
   const [codeBody, setCodeBody] = useState(dataFromUrl.body);
+  const [snippet, setSnippet] = useState('');
+
   const [response, setResponse] = useState<{
     status: number;
     data: string;
@@ -61,7 +74,7 @@ export function RestClient() {
       );
       nextUrl += `/${bodyBase64}`;
     }
-    
+
     headers.forEach((header) => {
       if (header.isActive) {
         const headerWithVariableValue = replaceVariables(
@@ -74,7 +87,7 @@ export function RestClient() {
         );
       }
     });
-    
+
     nextUrl += `?${searchParams.toString()}`;
     router.push(nextUrl);
   }, [codeBody, headers, method, router, url, variables]);
@@ -151,9 +164,20 @@ export function RestClient() {
             <Tab value={tab} label={tab} key={tab} />
           ))}
         </Tabs>
-        {tab === 'Headers' && <Fields handler={setHeaders} value={headers} />}
-        {tab === 'Query' && <Fields handler={setQueries} value={queries} />}
-        {tab === 'Body' && (
+        {tab === TABS.HEADERS && (
+          <Fields handler={setHeaders} value={headers} />
+        )}
+        {tab === TABS.GENERATOR && (
+          <CodeGenerator
+            snippet={snippet}
+            setSnippet={setSnippet}
+            method={method}
+            url={url}
+            body={codeBody}
+            headers={headers}
+          />
+        )}
+        {tab === TABS.BODY && (
           <CodeEditor handler={setCodeBody} value={codeBody} />
         )}
       </Box>

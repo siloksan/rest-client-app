@@ -5,3 +5,5 @@ declare module 'next-intl' {
     Messages: typeof messages;
   }
 }
+
+// Removed augmentation of 'postman-code-generators' from this file.
