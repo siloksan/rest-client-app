@@ -74,5 +74,22 @@
       "update": "Variable updated",
       "delete": "Variable deleted"
     }
+  },
+  "HistoryPage": {
+    "title": "Request History",
+    "description": "A list of previously executed requests with the ability to reuse them.",
+    "emptyMessage": "You haven't executed any requests. It's empty here. Try:",
+    "labelRowsPerPage": "Rows per page:",
+    "fields": {
+      "time": "Execution time",
+      "method": "Method",
+      "request": "Request URL"
+    },
+    "buttons": {
+      "clear": "Clear history",
+      "copy": "Copy to clipboard",
+      "reuse": "Reuse query",
+      "delete": "Delete"
+    }
   }
 }

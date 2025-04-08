@@ -17,7 +17,7 @@ import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
 import { initialField, Field, Fields } from '../fields/fields';
 import { CodeEditor } from '../code-editor/code-editor';
 import { ResponseField } from '../response-field/response-field';
-import { Methods, Variable } from '@/types';
+import { HistoryRecordType, Methods, Variable } from '@/types';
 import { useRouter } from 'next/navigation';
 import { bytesToBase64 } from '@/utils/converterBase64';
 import { useTranslations } from 'next-intl';
@@ -30,10 +30,14 @@ export function RestClient() {
   const dataFromUrl = useUrlData();
   const tabs = ['Headers', 'Query', 'Body'];
   const router = useRouter();
-  const [method, setMethod] = useState<string>(dataFromUrl.method || Methods.GET);
+  const [method, setMethod] = useState<string>(
+    dataFromUrl.method || Methods.GET
+  );
   const [url, setUrl] = useState(dataFromUrl.url);
   const [tab, setTab] = useState<string>(tabs[0]);
-  const [headers, setHeaders] = useState<Field[]>(dataFromUrl.headers || [initialField]);
+  const [headers, setHeaders] = useState<Field[]>(
+    dataFromUrl.headers || [initialField]
+  );
   const [queries, setQueries] = useState<Field[]>([initialField]);
   const [codeBody, setCodeBody] = useState(dataFromUrl.body);
   const [response, setResponse] = useState<{
@@ -44,6 +48,9 @@ export function RestClient() {
     LOCAL_KEYS.VARIABLES,
     []
   );
+  const history = useLocalStorage<HistoryRecordType[]>(LOCAL_KEYS.HISTORY, []);
+  const userName = 'default user';
+
   const translate = useTranslations('RestCards');
   const translateRestClient = useTranslations('RestClient');
   const translateBtn = useTranslations('Buttons');
@@ -61,7 +68,7 @@ export function RestClient() {
       );
       nextUrl += `/${bodyBase64}`;
     }
-    
+
     headers.forEach((header) => {
       if (header.isActive) {
         const headerWithVariableValue = replaceVariables(
@@ -74,7 +81,7 @@ export function RestClient() {
         );
       }
     });
-    
+
     nextUrl += `?${searchParams.toString()}`;
     router.push(nextUrl);
   }, [codeBody, headers, method, router, url, variables]);
@@ -101,6 +108,16 @@ export function RestClient() {
       status: data.status,
       data: JSON.stringify(data.data, null, 2),
     });
+    history.setStoredValue([
+      ...history.storedValue,
+      {
+        user: userName,
+        requestDate: new Date().getTime(),
+        requestMethod: method,
+        requestedUrl: url,
+        innerUrl: location.toString(),
+      },
+    ]);
   };
 
   return (
