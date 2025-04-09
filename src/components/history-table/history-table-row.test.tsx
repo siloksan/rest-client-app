@@ -16,7 +16,9 @@ describe('HistoryTableRow', () => {
   };
   const mockedDeleteRecord = vi.fn();
   const mockedCopyResolve = vi.fn(() => Promise.resolve());
-  const mockedCopyReject = vi.fn(() => Promise.reject());
+  const mockedCopyReject = vi.fn(() =>
+    Promise.reject(new Error('Forced error'))
+  );
 
   vi.mock(import('next-intl'), async (importOriginal) => {
     const actual = await importOriginal();
@@ -27,6 +29,7 @@ describe('HistoryTableRow', () => {
   });
 
   it('should render HistoryTableRow component without crash', async () => {
+    vi.spyOn(console, 'log').mockImplementation(() => null);
     Object.assign(navigator, {
       clipboard: {
         writeText: mockedCopyResolve,
@@ -39,10 +42,14 @@ describe('HistoryTableRow', () => {
 
     render(
       <NextIntlClientProvider locale="en" messages={messages}>
-        <HistoryTableRow
-          historyRecord={testHistoryRecord}
-          deleteRecord={mockedDeleteRecord}
-        />
+        <table>
+          <tbody>
+            <HistoryTableRow
+              historyRecord={testHistoryRecord}
+              deleteRecord={mockedDeleteRecord}
+            />
+          </tbody>
+        </table>
       </NextIntlClientProvider>
     );
     const deleteBtn = screen.getByTitle(messages.HistoryPage.buttons.delete);
