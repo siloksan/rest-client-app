@@ -77,7 +77,7 @@ export function HistoryTableRow({
               })
               .catch((err) => {
                 console.log('Something went wrong', err);
-                showSnackbar(<Alert severity="error">{err.message}</Alert>);
+                showSnackbar(<Alert severity="error">{err?.message}</Alert>);
               });
           }}
         >
