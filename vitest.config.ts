@@ -23,5 +23,11 @@ export default defineConfig({
         '**/*.config.{js,mjs,ts}',
       ],
     },
+    server: {
+      deps: {
+        // https://github.com/vercel/next.js/issues/77200
+        inline: ['next-intl']
+      }
+    }
   },
 });
