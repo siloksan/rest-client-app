@@ -13,7 +13,7 @@ import {
   Tab,
 } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
+import { ChangeEvent, SyntheticEvent, useCallback, useState } from 'react';
 import { initialField, Field, Fields } from '../fields/fields';
 import { CodeEditor } from '../code-editor/code-editor';
 import { ResponseField } from '../response-field/response-field';
@@ -26,6 +26,7 @@ import { LOCAL_KEYS } from '@/constants/local-keys';
 import { useLocalStorage } from '@/hooks';
 import { replaceVariables } from '@/utils';
 import { CodeGenerator } from '../code-generator/code-generator';
+import useDebounce from '@/hooks/use-debounce';
 
 const TABS = {
   HEADERS: 'Headers',
@@ -61,7 +62,7 @@ export function RestClient() {
   const translateRestClient = useTranslations('RestClient');
   const translateBtn = useTranslations('Buttons');
 
-  useEffect(() => {
+  const handleRoutePush = useCallback(() => {
     const urlWithVariables = replaceVariables(url, variables);
     const urlBase64 = bytesToBase64(new TextEncoder().encode(urlWithVariables));
     const searchParams = new URLSearchParams();
@@ -115,6 +116,8 @@ export function RestClient() {
       data: JSON.stringify(data.data, null, 2),
     });
   };
+
+  useDebounce(handleRoutePush, 300);
 
   return (
     <Box
