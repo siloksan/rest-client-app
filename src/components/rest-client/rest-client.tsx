@@ -27,21 +27,13 @@ import { useLocalStorage } from '@/hooks';
 import { replaceVariables } from '@/utils';
 import { CodeGenerator } from '../code-generator/code-generator';
 
-const TABS = {
-  HEADERS: 'Headers',
-  GENERATOR: 'Code Generator',
-  BODY: 'Body',
-} as const;
-
 export function RestClient() {
   const dataFromUrl = useUrlData();
-  const tabs = [TABS.HEADERS, TABS.GENERATOR, TABS.BODY];
   const router = useRouter();
   const [method, setMethod] = useState<string>(
     dataFromUrl.method || Methods.GET
   );
   const [url, setUrl] = useState(dataFromUrl.url);
-  const [tab, setTab] = useState<string>(tabs[0]);
   const [headers, setHeaders] = useState<Field[]>(
     dataFromUrl.headers || [initialField]
   );
@@ -60,6 +52,15 @@ export function RestClient() {
   const translate = useTranslations('RestCards');
   const translateRestClient = useTranslations('RestClient');
   const translateBtn = useTranslations('Buttons');
+  const TABS = {
+    HEADERS: translateRestClient('headers'),
+    GENERATOR: translateRestClient('generator'),
+    BODY: translateRestClient('body'),
+  } as const;
+
+  const tabs = [TABS.HEADERS, TABS.GENERATOR, TABS.BODY];
+
+  const [tab, setTab] = useState<string>(tabs[0]);
 
   useEffect(() => {
     const urlWithVariables = replaceVariables(url, variables);

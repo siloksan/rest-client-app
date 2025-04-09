@@ -47,10 +47,18 @@
   "RestClient": {
     "method": "Method",
     "headers": "Headers",
-    "query": "Query",
+    "generator": "Code Generator",
     "body": "Body",
     "response": "Response",
-    "status": "Status"
+    "status": "Status",
+    "CodeGenerator": {
+      "snackMessageError": "Generate code is failed",
+      "snackMessageSuccess": "Code generated successfully",
+      "errorMessageInEditor": "Please provide a valid data",
+      "unknownErrorMessage": "Failed to generate code: {error}",
+      "selectLabel": "Language",
+      "buttonGenerate": "Generate code"
+    }
   },
 
   "NotFoundPage": {

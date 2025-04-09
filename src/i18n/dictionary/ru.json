@@ -47,10 +47,18 @@
   "RestClient": {
     "method": "Метод",
     "headers": "Заголовки",
-    "query": "Параметры",
+    "generator": "Код генератор",
     "body": "Тело",
     "response": "Ответ",
-    "status": "Статус"
+    "status": "Статус",
+    "CodeGenerator": {
+      "snackMessageError": "Не удалось сгенерировать код",
+      "snackMessageSuccess": "Код успешно сгенерирован",
+      "errorMessageInEditor": "Пожалуйста, введите корректные данные",
+      "unknownErrorMessage": "Ошибка при генерации кода: {error}",
+      "selectLabel": "Язык",
+      "buttonGenerate": "Сгенерировать код"
+    }
   },
 
   "NotFoundPage": {
