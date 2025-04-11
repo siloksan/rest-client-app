@@ -25,6 +25,7 @@ import useUrlData from '@/hooks/use-url-data';
 import { LOCAL_KEYS } from '@/constants/local-keys';
 import { useLocalStorage } from '@/hooks';
 import { replaceVariables } from '@/utils';
+import { createBrowserSupabase } from '@/db/create-client';
 
 export function RestClient() {
   const dataFromUrl = useUrlData();
@@ -49,7 +50,7 @@ export function RestClient() {
     []
   );
   const history = useLocalStorage<HistoryRecordType[]>(LOCAL_KEYS.HISTORY, []);
-  const userName = 'default user';
+  const supabase = createBrowserSupabase();
 
   const translate = useTranslations('RestCards');
   const translateRestClient = useTranslations('RestClient');
@@ -108,6 +109,10 @@ export function RestClient() {
       status: data.status,
       data: JSON.stringify(data.data, null, 2),
     });
+
+    const userName =
+      (await supabase.auth.getUser()).data.user?.email ?? 'default user';
+
     history.setStoredValue([
       ...history.storedValue,
       {

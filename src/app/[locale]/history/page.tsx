@@ -6,28 +6,36 @@ import { LOCAL_KEYS } from '@/constants/local-keys';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { Link } from '@/i18n/navigation';
 import { HistoryRecordType } from '@/types';
-import { Box, Card, Container, Typography } from '@mui/material';
+import { Box, Card, Container, Skeleton, Typography } from '@mui/material';
 import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
 
-export default function Page() {
+export default function Page({ user }: { user: string }) {
   const translate = useTranslations('RestCards');
   const translatePage = useTranslations('HistoryPage');
-  const { storedValue, setStoredValue } = useLocalStorage<HistoryRecordType[]>(
-    LOCAL_KEYS.HISTORY,
-    []
-  );
+  const { storedValue, setStoredValue, initialized } = useLocalStorage<
+    HistoryRecordType[]
+  >(LOCAL_KEYS.HISTORY, []);
 
   const deleteRecord = (requestDate: number) => {
     setStoredValue(
       storedValue.filter(
-        (record: HistoryRecordType) => record.requestDate != requestDate
+        (record: HistoryRecordType) =>
+          record.requestDate != requestDate || record.user != user
       )
     );
   };
 
   const deleteAllRecords = () => {
-    setStoredValue([]);
+    setStoredValue(
+      storedValue.filter((record: HistoryRecordType) => record.user != user)
+    );
   };
+
+  const userHistory = useMemo(
+    () => [...storedValue].filter((rec: HistoryRecordType) => rec.user == user),
+    [storedValue, user]
+  );
 
   return (
     <Container
@@ -53,9 +61,17 @@ export default function Page() {
         {translate('history.description')}
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        {storedValue.length ? (
+        {!initialized ? (
+          <>
+            <Skeleton height={80} animation="wave" />
+            <Skeleton height={80} animation="wave" />
+            <Skeleton height={80} animation="wave" />
+            <Skeleton height={80} animation="wave" />
+            <Skeleton height={80} animation="wave" />
+          </>
+        ) : userHistory.length ? (
           <HistoryTable
-            historyRecords={storedValue}
+            historyRecords={userHistory}
             deleteRecord={deleteRecord}
             deleteAllRecords={deleteAllRecords}
           />

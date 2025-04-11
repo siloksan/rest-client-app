@@ -36,7 +36,7 @@ describe('HistoryTableRow', () => {
   it('should render empty HistoryTable component without crash', async () => {
     render(
       <NextIntlClientProvider locale="en" messages={messages}>
-        <Page />
+        <Page user="test" />
       </NextIntlClientProvider>
     );
 
@@ -53,7 +53,7 @@ describe('HistoryTableRow', () => {
 
     render(
       <NextIntlClientProvider locale="en" messages={messages}>
-        <Page />
+        <Page user="test" />
       </NextIntlClientProvider>
     );
 
