@@ -4,7 +4,7 @@ import { useSearchParams, useParams } from 'next/navigation';
 
 export default function useUrlData() {
   const { slug } = useParams<{ slug: string[] }>();
-  const [method, url, body] = slug;
+  const [method, url, body] = slug ?? [];
   const decodeUrl = decodeURIComponent(url);
   const decodeBody = decodeURIComponent(body);
   const searchParams = useSearchParams();
