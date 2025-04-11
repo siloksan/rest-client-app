@@ -55,6 +55,17 @@ export const withAuth: MiddlewareFactory = (nextMiddleware) => {
       return NextResponse.redirect(url);
     }
 
+    const isAuthRoute = new RegExp(
+      `^(/(${locales.join('|')}))?(${ROUTES.SIGNIN}|${ROUTES.SIGNUP})(/.*)?$`
+    ).test(request.nextUrl.pathname);
+
+    if (isAuthenticated && isAuthRoute) {
+      const url = request.nextUrl.clone();
+      url.pathname = currentLocale ? `/${currentLocale}` : '/';
+
+      return NextResponse.redirect(url);
+    }
+
     return supabaseResponse;
   };
 };
