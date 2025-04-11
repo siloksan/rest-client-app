@@ -1,14 +1,14 @@
 import { act, render, screen } from '@testing-library/react';
 import { describe, it, vi, expect } from 'vitest';
-import messages from '../../../i18n/dictionary/en.json';
+import messages from '../../i18n/dictionary/en.json';
 import { NextIntlClientProvider } from 'next-intl';
-import Page from './page';
+import HistoryPage from './history-page';
 import { LOCAL_KEYS } from '@/constants/local-keys';
 
 describe('HistoryTableRow', () => {
   const testHistoryRecords = [
     {
-      user: 'test',
+      user: 'default user',
       requestDate: 1,
       requestMethod: 'GET',
       requestedUrl: 'http://jsonplaceholder.typicode.com/todos/1',
@@ -16,7 +16,7 @@ describe('HistoryTableRow', () => {
         'http://localhost:3000/en/rest-client/GET/aHR0cDovL2pzb25wbGFjZWhvbGRlci50eXBpY29kZS5jb20vdG9kb3MvMQ==',
     },
     {
-      user: 'test',
+      user: 'default user',
       requestDate: 2,
       requestMethod: 'POST',
       requestedUrl: 'http://jsonplaceholder.typicode.com/todos/2',
@@ -36,7 +36,7 @@ describe('HistoryTableRow', () => {
   it('should render empty HistoryTable component without crash', async () => {
     render(
       <NextIntlClientProvider locale="en" messages={messages}>
-        <Page user="test" />
+        <HistoryPage />
       </NextIntlClientProvider>
     );
 
@@ -53,7 +53,7 @@ describe('HistoryTableRow', () => {
 
     render(
       <NextIntlClientProvider locale="en" messages={messages}>
-        <Page user="test" />
+        <HistoryPage />
       </NextIntlClientProvider>
     );
 

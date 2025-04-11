@@ -23,7 +23,7 @@ import {
 export function Login() {
   const translate = useTranslations('LoginPage');
   const translateBtn = useTranslations('Buttons');
-  const setUserName = userAuthStore(state => state.setUserName);
+  const setUser = userAuthStore(state => state.setUser);
   const locale = useLocale();
   const {
     control,
@@ -54,7 +54,7 @@ export function Login() {
     }
 
     const userName = data?.user?.user_metadata?.username;
-    setUserName(userName);
+    setUser(data?.user);
 
     showSnackbar(
       <Alert severity="success">{`Authorization successfully! Hello ${userName}!`}</Alert>

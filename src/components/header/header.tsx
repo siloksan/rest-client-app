@@ -14,16 +14,17 @@ import { useLocale, useTranslations } from 'next-intl';
 import { LanguageSwitcher } from '../language-switcher/language-switcher';
 import { userAuthStore } from '@/store/userAuth/userAuth-store';
 import Image from 'next/image';
+import { User } from '@supabase/supabase-js';
 
 interface Props {
-  initialUserName: string | null;
+  initialUser: User | null;
 }
 
-export function Header({ initialUserName }: Props) {
+export function Header({ initialUser }: Props) {
   const locale = useLocale();
   const { scrolled } = useScrollState();
-  const setUserName = userAuthStore(state => state.setUserName);
-  const username = userAuthStore(state => state.userName);
+  const setUser = userAuthStore(state => state.setUser);
+  const username = userAuthStore(state => state.userData?.user_metadata.username);
   const supabase = createBrowserSupabase();
   const translateBtn = useTranslations('Buttons');
 
@@ -37,13 +38,13 @@ export function Header({ initialUserName }: Props) {
     }
 
     showSnackbar(<Alert severity="success">Goodbye {username}!</Alert>);
-    setUserName(null);
+    setUser(null);
     return redirect({ href: ROUTES.MAIN, locale });
   };
 
   useEffect(() => {
-    setUserName(initialUserName);
-  }, [initialUserName, setUserName]);
+    setUser(initialUser);
+  }, [initialUser, setUser]);
 
   return (
     <AppBar

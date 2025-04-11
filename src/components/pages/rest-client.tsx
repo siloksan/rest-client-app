@@ -28,7 +28,7 @@ import { useLocalStorage } from '@/hooks';
 import { replaceVariables } from '@/utils';
 import { CodeGenerator } from '../code-generator/code-generator';
 import useDebounce from '@/hooks/use-debounce';
-import { createBrowserSupabase } from '@/db/create-client';
+import { userAuthStore } from '@/store/userAuth/userAuth-store';
 
 const TABS = {
   HEADERS: 'Headers',
@@ -62,7 +62,7 @@ export default function RestClient() {
   );
 
   const history = useLocalStorage<HistoryRecordType[]>(LOCAL_KEYS.HISTORY, []);
-  const supabase = createBrowserSupabase();
+  const userName = userAuthStore(state => state.userData?.email) ?? 'default user';
 
   const translate = useTranslations('RestCards');
   const translateRestClient = useTranslations('RestClient');
@@ -121,9 +121,6 @@ export default function RestClient() {
       status: data.status,
       data: JSON.stringify(data.data, null, 2),
     });
-
-    const userName =
-      (await supabase.auth.getUser()).data.user?.email ?? 'default user';
 
     history.setStoredValue([
       ...history.storedValue,

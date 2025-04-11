@@ -11,9 +11,9 @@ const RestClient = dynamic(() => import('../../../components/pages/rest-client')
 
 export default function Layout() {
   const locale = useLocale();
-  const username = userAuthStore(state => state.userName);
+  const user = userAuthStore(state => state.userData);
 
-  return username ? <RestClient /> : redirect({
+  return user ? <RestClient /> : redirect({
     href: '/',
     locale
   })

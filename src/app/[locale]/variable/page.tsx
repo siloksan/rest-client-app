@@ -11,9 +11,9 @@ const VariablePage = dynamic(() => import('../../../components/pages/variables')
 
 export default function Page() {
   const locale = useLocale();
-  const username = userAuthStore(state => state.userName);
+  const user = userAuthStore(state => state.userData);
 
-  return username ? <VariablePage /> : redirect({
+  return user ? <VariablePage /> : redirect({
     href: '/',
     locale
   })
