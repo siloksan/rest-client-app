@@ -80,6 +80,7 @@
     "description": "A list of previously executed requests with the ability to reuse them.",
     "emptyMessage": "You haven't executed any requests. It's empty here. Try:",
     "labelRowsPerPage": "Rows per page:",
+    "copyMessage": "URL copied to clipboard!",
     "fields": {
       "time": "Execution time",
       "method": "Method",

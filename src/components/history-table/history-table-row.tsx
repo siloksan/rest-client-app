@@ -72,7 +72,9 @@ export function HistoryTableRow({
               .writeText(historyRecord.requestedUrl)
               .then(() => {
                 showSnackbar(
-                  <Alert severity="success">{`URL copied to clipboard!`}</Alert>
+                  <Alert severity="success">
+                    {translateHistoryPage('copyMessage')}
+                  </Alert>
                 );
               })
               .catch((err) => {
