@@ -11,6 +11,7 @@ import {
   Box,
   Tabs,
   Tab,
+  Container,
 } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { ChangeEvent, SyntheticEvent, useCallback, useState } from 'react';
@@ -35,7 +36,7 @@ const TABS = {
   BODY: 'Body',
 } as const;
 
-export function RestClient() {
+export default function RestClient() {
   const dataFromUrl = useUrlData();
   const tabs = [TABS.HEADERS, TABS.GENERATOR, TABS.BODY];
   const router = useRouter();
@@ -139,6 +140,7 @@ export function RestClient() {
   useDebounce(handleRoutePush, 300);
 
   return (
+        <Container sx={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
     <Box
       sx={{ pt: '1.5em', flex: 1, display: 'flex', flexDirection: 'column' }}
     >
@@ -207,5 +209,6 @@ export function RestClient() {
         <ResponseField status={response.status} value={response.data} />
       )}
     </Box>
+    </Container>
   );
 }

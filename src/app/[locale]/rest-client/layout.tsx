@@ -1,12 +1,20 @@
-import { RestClient } from '@/components/rest-client/rest-client';
-import { Container } from '@mui/material';
+'use client'
 
-async function Page() {
-  return (
-    <Container sx={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
-      <RestClient />
-    </Container>
-  );
+import { redirect } from '@/i18n/navigation';
+import { userAuthStore } from '@/store/userAuth/userAuth-store';
+import { useLocale } from 'next-intl';
+import dynamic from 'next/dynamic';
+
+const RestClient = dynamic(() => import('../../../components/pages/rest-client'),   {
+  loading: () => <p>Loading...</p>,
+});
+
+export default function Layout() {
+  const locale = useLocale();
+  const username = userAuthStore(state => state.userName);
+
+  return username ? <RestClient /> : redirect({
+    href: '/',
+    locale
+  })
 }
-
-export default Page;
