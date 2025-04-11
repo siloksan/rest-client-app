@@ -1,20 +1,15 @@
-'use client'
+'use client';
 
-import { redirect } from '@/i18n/navigation';
-import { userAuthStore } from '@/store/userAuth/userAuth-store';
-import { useLocale } from 'next-intl';
+import { CircularProgress } from '@mui/material';
 import dynamic from 'next/dynamic';
 
-const HistoryPage = dynamic(() => import('../../../components/pages/history-page'),   {
-  loading: () => <p>Loading...</p>,
-});
+const HistoryPage = dynamic(
+  () => import('../../../components/pages/history-page'),
+  {
+    loading: () => <CircularProgress size="3rem" sx={{ margin: 'auto' }} />,
+  }
+);
 
 export default function Page() {
-  const locale = useLocale();
-  const user = userAuthStore(state => state.userData);
-
-  return user ? <HistoryPage /> : redirect({
-    href: '/',
-    locale
-  })
+  return <HistoryPage />;
 }

@@ -23,7 +23,7 @@ import {
 export function Login() {
   const translate = useTranslations('LoginPage');
   const translateBtn = useTranslations('Buttons');
-  const setUser = userAuthStore(state => state.setUser);
+  const setUser = userAuthStore((state) => state.setUser);
   const locale = useLocale();
   const {
     control,

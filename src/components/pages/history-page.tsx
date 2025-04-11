@@ -14,7 +14,8 @@ import { useMemo } from 'react';
 export default function Page() {
   const translate = useTranslations('RestCards');
   const translatePage = useTranslations('HistoryPage');
-  const user = userAuthStore(state => state.userData?.email) ?? 'default user';
+  const user =
+    userAuthStore((state) => state.userData?.email) ?? 'default user';
   const { storedValue, setStoredValue, initialized } = useLocalStorage<
     HistoryRecordType[]
   >(LOCAL_KEYS.HISTORY, []);

@@ -62,7 +62,8 @@ export default function RestClient() {
   );
 
   const history = useLocalStorage<HistoryRecordType[]>(LOCAL_KEYS.HISTORY, []);
-  const userName = userAuthStore(state => state.userData?.email) ?? 'default user';
+  const userName =
+    userAuthStore((state) => state.userData?.email) ?? 'default user';
 
   const translate = useTranslations('RestCards');
   const translateRestClient = useTranslations('RestClient');
@@ -137,75 +138,75 @@ export default function RestClient() {
   useDebounce(handleRoutePush, 300);
 
   return (
-        <Container sx={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
-    <Box
-      sx={{ pt: '1.5em', flex: 1, display: 'flex', flexDirection: 'column' }}
-    >
-      <Typography align="center" variant="h5" mb={'.5em'}>
-        {translate('client.title')}
-      </Typography>
-      <FormControl
-        sx={{ display: 'flex', flexDirection: 'row', gap: '.5em' }}
-        fullWidth
+    <Container sx={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
+      <Box
+        sx={{ pt: '1.5em', flex: 1, display: 'flex', flexDirection: 'column' }}
       >
-        <InputLabel id="method-label">
-          {translateRestClient('method')}
-        </InputLabel>
-        <Select
-          labelId="method-label"
-          value={method}
-          label="Method"
-          onChange={handleChangeMethod}
-          sx={{ width: '7em' }}
+        <Typography align="center" variant="h5" mb={'.5em'}>
+          {translate('client.title')}
+        </Typography>
+        <FormControl
+          sx={{ display: 'flex', flexDirection: 'row', gap: '.5em' }}
+          fullWidth
         >
-          {Object.values(Methods).map((method) => (
-            <MenuItem key={method} value={method}>
-              {method}
-            </MenuItem>
-          ))}
-        </Select>
-        <TextField
-          label="URL"
-          variant="outlined"
-          value={url}
-          onChange={handleChangeUrl}
-          sx={{ flex: '1' }}
-        />
-        <Button variant="outlined" type="submit" onClick={handleSendButton}>
-          {translateBtn('send')}
-        </Button>
-      </FormControl>
-      <Box>
-        <Tabs
-          value={tab}
-          onChange={handleChangeTab}
-          aria-label="wrapped label tabs example"
-        >
-          {tabs.map((tab) => (
-            <Tab value={tab} label={tab} key={tab} />
-          ))}
-        </Tabs>
-        {tab === TABS.HEADERS && (
-          <Fields handler={setHeaders} value={headers} />
-        )}
-        {tab === TABS.GENERATOR && (
-          <CodeGenerator
-            snippet={snippet}
-            setSnippet={setSnippet}
-            method={method}
-            url={url}
-            body={codeBody}
-            headers={headers}
+          <InputLabel id="method-label">
+            {translateRestClient('method')}
+          </InputLabel>
+          <Select
+            labelId="method-label"
+            value={method}
+            label="Method"
+            onChange={handleChangeMethod}
+            sx={{ width: '7em' }}
+          >
+            {Object.values(Methods).map((method) => (
+              <MenuItem key={method} value={method}>
+                {method}
+              </MenuItem>
+            ))}
+          </Select>
+          <TextField
+            label="URL"
+            variant="outlined"
+            value={url}
+            onChange={handleChangeUrl}
+            sx={{ flex: '1' }}
           />
-        )}
-        {tab === TABS.BODY && (
-          <CodeEditor handler={setCodeBody} value={codeBody} />
+          <Button variant="outlined" type="submit" onClick={handleSendButton}>
+            {translateBtn('send')}
+          </Button>
+        </FormControl>
+        <Box>
+          <Tabs
+            value={tab}
+            onChange={handleChangeTab}
+            aria-label="wrapped label tabs example"
+          >
+            {tabs.map((tab) => (
+              <Tab value={tab} label={tab} key={tab} />
+            ))}
+          </Tabs>
+          {tab === TABS.HEADERS && (
+            <Fields handler={setHeaders} value={headers} />
+          )}
+          {tab === TABS.GENERATOR && (
+            <CodeGenerator
+              snippet={snippet}
+              setSnippet={setSnippet}
+              method={method}
+              url={url}
+              body={codeBody}
+              headers={headers}
+            />
+          )}
+          {tab === TABS.BODY && (
+            <CodeEditor handler={setCodeBody} value={codeBody} />
+          )}
+        </Box>
+        {response && (
+          <ResponseField status={response.status} value={response.data} />
         )}
       </Box>
-      {response && (
-        <ResponseField status={response.status} value={response.data} />
-      )}
-    </Box>
     </Container>
   );
 }
