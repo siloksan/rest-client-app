@@ -17,7 +17,7 @@ import { ChangeEvent, SyntheticEvent, useCallback, useState } from 'react';
 import { initialField, Field, Fields } from '../fields/fields';
 import { CodeEditor } from '../code-editor/code-editor';
 import { ResponseField } from '../response-field/response-field';
-import { Methods, Variable } from '@/types';
+import { HistoryRecordType, Methods, Variable } from '@/types';
 import { useRouter } from 'next/navigation';
 import { bytesToBase64 } from '@/utils/converterBase64';
 import { useTranslations } from 'next-intl';
@@ -27,6 +27,7 @@ import { useLocalStorage } from '@/hooks';
 import { replaceVariables } from '@/utils';
 import { CodeGenerator } from '../code-generator/code-generator';
 import useDebounce from '@/hooks/use-debounce';
+import { createBrowserSupabase } from '@/db/create-client';
 
 const TABS = {
   HEADERS: 'Headers',
@@ -58,6 +59,10 @@ export function RestClient() {
     LOCAL_KEYS.VARIABLES,
     []
   );
+
+  const history = useLocalStorage<HistoryRecordType[]>(LOCAL_KEYS.HISTORY, []);
+  const supabase = createBrowserSupabase();
+
   const translate = useTranslations('RestCards');
   const translateRestClient = useTranslations('RestClient');
   const translateBtn = useTranslations('Buttons');
@@ -115,6 +120,20 @@ export function RestClient() {
       status: data.status,
       data: JSON.stringify(data.data, null, 2),
     });
+
+    const userName =
+      (await supabase.auth.getUser()).data.user?.email ?? 'default user';
+
+    history.setStoredValue([
+      ...history.storedValue,
+      {
+        user: userName,
+        requestDate: new Date().getTime(),
+        requestMethod: method,
+        requestedUrl: url,
+        innerUrl: location.toString(),
+      },
+    ]);
   };
 
   useDebounce(handleRoutePush, 300);

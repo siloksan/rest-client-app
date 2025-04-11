@@ -11,3 +11,11 @@ export interface Variable {
   name: string;
   value: string;
 }
+
+export type HistoryRecordType = {
+  user: string;
+  requestDate: number;
+  requestMethod: string;
+  requestedUrl: string;
+  innerUrl: string;
+};
