@@ -29,7 +29,7 @@ export function Login() {
     formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(loginSchema),
-    mode: 'onChange',
+    mode: 'all',
   });
 
   const [submit, setSubmit] = useState(false);
@@ -86,6 +86,7 @@ export function Login() {
             required
             control={control}
             helperText={emailError}
+            data-testid="email"
           />
           <PasswordElement
             label="Password"
@@ -93,9 +94,11 @@ export function Login() {
             control={control}
             helperText={passwordError}
             required
+            data-testid="password"
           />
           <Button
             variant="contained"
+            aria-label="sign in"
             sx={{ width: '100%' }}
             disabled={!isValid}
             loading={submit}

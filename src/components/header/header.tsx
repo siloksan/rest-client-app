@@ -4,9 +4,9 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { showSnackbar } from '@/store/snackbar/snackbar-store';
-import { Alert, AppBar } from '@mui/material';
+import { Alert, AppBar, Link } from '@mui/material';
 import { ROUTES } from '@/constants';
-import { redirect, Link } from '@/i18n/navigation';
+import { redirect } from '@/i18n/navigation';
 import { createBrowserSupabase } from '@/db/create-client';
 import { useEffect, useState } from 'react';
 import { useScrollState } from '@/hooks';
@@ -81,13 +81,17 @@ export function Header({ initialUserName }: Props) {
         {username ? (
           <>
             <NavBar />
-            <Button onClick={signOutAction} title={translateBtn('signout')}>
+            <Button
+              aria-label="sign out"
+              onClick={signOutAction}
+              title={translateBtn('signout')}
+            >
               <LogoutIcon />
             </Button>
           </>
         ) : (
           <>
-            <Button variant="outlined">
+            <Button aria-label="sign in" variant="outlined">
               <Link
                 href={ROUTES.SIGNIN}
                 style={{
@@ -98,7 +102,7 @@ export function Header({ initialUserName }: Props) {
                 {translateBtn('signin')}
               </Link>
             </Button>
-            <Button variant="outlined">
+            <Button aria-label="sign up" variant="outlined">
               <Link
                 href={ROUTES.SIGNUP}
                 style={{
