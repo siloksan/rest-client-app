@@ -13,6 +13,7 @@ import { useScrollState } from '@/hooks';
 import { useLocale, useTranslations } from 'next-intl';
 import { LanguageSwitcher } from '../language-switcher/language-switcher';
 import Image from 'next/image';
+import { NavBar } from '../navbar/navbar';
 
 interface Props {
   initialUserName: string | null;
@@ -78,9 +79,12 @@ export function Header({ initialUserName }: Props) {
       <LanguageSwitcher />
       <Box sx={{ display: 'flex', gap: 2 }}>
         {username ? (
-          <Button onClick={signOutAction} title={translateBtn('signout')}>
-            <LogoutIcon />
-          </Button>
+          <>
+            <NavBar />
+            <Button onClick={signOutAction} title={translateBtn('signout')}>
+              <LogoutIcon />
+            </Button>
+          </>
         ) : (
           <>
             <Button variant="outlined">

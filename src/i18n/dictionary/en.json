@@ -7,7 +7,11 @@
   "MainPage": {
     "welcome_message": "Welcome!",
     "welcome_user": "Welcome Back {username}!",
-    "about_app": "REST Client is a lightweight API testing tool designed to simplify working with RESTful services. Whether you are debugging an API, testing endpoints, or managing request history, REST Client provides an intuitive and efficient experience. With built-in authentication, request history tracking, and support for various HTTP methods, you can seamlessly interact with any API. Start exploring now—sign in to begin your API journey!"
+    "about_app": "REST Client is a lightweight API testing tool designed to simplify working with RESTful services. Whether you are debugging an API, testing endpoints, or managing request history, REST Client provides an intuitive and efficient experience. With built-in authentication, request history tracking, and support for various HTTP methods, you can seamlessly interact with any API. Start exploring now—sign in to begin your API journey!",
+    "section_course": "About the course",
+    "about_course": "The course emphasizes hands-on experience through both individual and group projects. It encourages teamwork, problem-solving, and the development of interesting applications like this one.",
+    "section_authors": "Behind the Code",
+    "bottom_text": "Check out our project, test some APIs, and enjoy the developer experience!"
   },
 
   "Buttons": {

@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { RestCards } from '../rest-cards/rest-cards';
 import { DeveloperCards } from '../developer-cards/developer-cards';
+import Divider from '@mui/material/Divider';
 
 interface Props {
   username: string | null;
@@ -15,7 +16,6 @@ interface Props {
 
 export function WelcomeSection({ username }: Props) {
   const translate = useTranslations('MainPage');
-
   const translateBtn = useTranslations('Buttons');
 
   return (
@@ -32,7 +32,8 @@ export function WelcomeSection({ username }: Props) {
       <Typography variant="body2" sx={{ textAlign: 'center', mt: 5 }}>
         {translate('about_app')}
       </Typography>
-      {!username && (
+
+      {!username ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5, gap: 2 }}>
           <Button variant="outlined">
             <Link
@@ -57,10 +58,21 @@ export function WelcomeSection({ username }: Props) {
             </Link>
           </Button>
         </Box>
+      ) : (
+        <RestCards />
       )}
-
-      <RestCards />
       <DeveloperCards />
+      <Typography variant="h3" sx={{ textAlign: 'center', mt: 10 }}>
+        {translate('section_course')}
+      </Typography>
+      <Typography variant="body2" sx={{ textAlign: 'center', mt: 2 }}>
+        {translate('about_course')}
+      </Typography>
+      <Divider sx={{ mt: 2 }} />
+      <Typography variant="body2" sx={{ textAlign: 'center', padding: 2 }}>
+        {translate('bottom_text')}
+      </Typography>
+      <Divider sx={{ mb: 10 }} />
     </>
   );
 }
