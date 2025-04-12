@@ -63,7 +63,7 @@ export function Header({ initialUserName }: Props) {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: `${scrolled ? '5px' : '26px'} 20px`,
+        padding: `${scrolled ? '0' : '10px'} 20px`,
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
         backdropFilter: 'blur(3px)',
         transition: 'all 0.3s ease-in-out',

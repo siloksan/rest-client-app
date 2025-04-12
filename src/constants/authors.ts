@@ -3,8 +3,8 @@ export const AUTHORS = [
     name: 'kurtin.name',
     github: 'https://github.com/siloksan',
     avatar: 'https://avatars.githubusercontent.com/u/107646198',
-    role: 'kurtin.name',
-    description: 'kurtin.name',
+    role: 'kurtin.role',
+    description: 'kurtin.description',
   },
   {
     name: 'chistiakov.name',
@@ -18,6 +18,8 @@ export const AUTHORS = [
     github: 'https://github.com/z-e-a',
     avatar: 'https://avatars.githubusercontent.com/u/87200568',
     role: 'zubkov.role',
-    description: 'zubkov.role',
+    description: 'zubkov.description',
   },
 ] as const;
+
+export type Author = (typeof AUTHORS)[number];

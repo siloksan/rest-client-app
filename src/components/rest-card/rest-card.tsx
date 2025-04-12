@@ -23,12 +23,6 @@ export function RestCard({ title, description, href }: Readonly<Props>) {
         <CardActionArea
           sx={{
             height: '100%',
-            '&[data-active]': {
-              backgroundColor: 'action.selected',
-              '&:hover': {
-                backgroundColor: 'action.selectedHover',
-              },
-            },
           }}
         >
           <CardContent sx={{ height: '100%', textAlign: 'center' }}>

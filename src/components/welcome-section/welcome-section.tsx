@@ -61,29 +61,6 @@ export function WelcomeSection({ username }: Props) {
 
       <RestCards />
       <DeveloperCards />
-      <Typography>
-        This text have only one purpose to check header! Do not forget to remove
-        it after checking! Lorem ipsum dolor sit amet consectetur adipisicing
-        elit. Alias ipsa iste nulla voluptate nisi. Veniam numquam nostrum
-        dolore, aspernatur soluta officiis non ipsa? Modi cum provident soluta
-        commodi deleniti neque? Nisi modi ut ipsam soluta consequuntur deleniti
-        veritatis aliquid praesentium, placeat, dolorum asperiores delectus?
-        Possimus saepe facere quod eos quaerat dolor minima est labore, eaque
-        eius adipisci, quisquam laborum! Eius. Ratione eligendi culpa nesciunt,
-        fugit alias non? Neque enim assumenda aspernatur optio, laboriosam a
-        quos perspiciatis, soluta animi quam placeat cum consequatur reiciendis
-        facilis repudiandae possimus eligendi et rem. Nisi. Nobis, aut facere.
-        Exercitationem fugiat eveniet eos maiores? Quos cum illo placeat eum
-        dolorum culpa non est fugiat hic, numquam recusandae commodi praesentium
-        minima harum inventore eveniet perferendis? Magnam, sit? Ea alias
-        suscipit magni? Aspernatur officiis, quos autem quisquam dolorem vel, ea
-        dolorum dolor, nisi consequatur repellendus debitis. Autem ut, nam omnis
-        eum voluptate possimus consectetur rerum qui sint labore! Numquam culpa
-        laudantium voluptatum fugit quisquam consectetur aliquam modi quidem
-        illo, explicabo recusandae. Veniam, perferendis qui? Voluptatibus
-        accusantium velit eligendi assumenda, molestiae repellat veniam labore
-        dolorem laboriosam placeat omnis cum?
-      </Typography>
     </>
   );
 }
