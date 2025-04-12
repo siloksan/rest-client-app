@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { RestCards } from '../rest-cards/rest-cards';
+import { DeveloperCards } from '../developer-cards/developer-cards';
 
 interface Props {
   username: string | null;
@@ -59,6 +60,7 @@ export function WelcomeSection({ username }: Props) {
       )}
 
       <RestCards />
+      <DeveloperCards />
       <Typography>
         This text have only one purpose to check header! Do not forget to remove
         it after checking! Lorem ipsum dolor sit amet consectetur adipisicing

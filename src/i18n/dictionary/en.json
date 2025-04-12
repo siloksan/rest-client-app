@@ -83,6 +83,7 @@
       "delete": "Variable deleted"
     }
   },
+
   "HistoryPage": {
     "title": "Request History",
     "description": "A list of previously executed requests with the ability to reuse them.",
@@ -99,6 +100,24 @@
       "copy": "Copy to clipboard",
       "reuse": "Reuse query",
       "delete": "Delete"
+    }
+  },
+
+  "Authors": {
+    "kurtin": {
+      "name": "Evgeniy Kurtin",
+      "role": "Team Lead",
+      "description": "He managed to organize a team effort to bring the project to life. Evgeniy helps bring structure to the work process and keeps the team focused and aligned. His calm and clear approach supports a stable and productive environment."
+    },
+    "chistiakov": {
+      "name": "Dmitry Chistiakov",
+      "role": "Frontend Developer",
+      "description": "Dmitry contributed heavily to the app’s core functionality. He was the go-to person for debugging tricky issues and always came up with elegant solutions to improve the system's robustness and performance."
+    },
+    "zubkov": {
+      "name": "Evgeny Zubkov",
+      "role": "Frontend Developer",
+      "description": "Evgeny has a keen eye for aesthetics and a deep concern for positive user experience. His creative approach helps create clear that appeal to a wide range of users. He plays a crucial role in ensuring that the app is both visually appealing and easy to use."
     }
   }
 }

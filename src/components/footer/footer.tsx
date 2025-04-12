@@ -1,25 +1,10 @@
+import { AUTHORS } from '@/constants/authors';
 import { Avatar, Badge, Box, Link, Typography } from '@mui/material';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
-const authors = [
-  {
-    name: 'Evgeniy Kurtin',
-    github: 'https://github.com/siloksan',
-    avatar: 'https://avatars.githubusercontent.com/u/107646198',
-  },
-  {
-    name: 'Dmitry Chistiakov',
-    github: 'https://github.com/DmitriyRim',
-    avatar: 'https://avatars.githubusercontent.com/u/74590404',
-  },
-  {
-    name: 'Evgeny Zubkov',
-    github: 'https://github.com/z-e-a',
-    avatar: 'https://avatars.githubusercontent.com/u/87200568',
-  },
-];
-
 export function Footer() {
+  const translate = useTranslations('Authors');
   return (
     <Box
       component="footer"
@@ -38,7 +23,7 @@ export function Footer() {
       }}
     >
       <Box display={'flex'} alignItems={'center'} gap={2}>
-        {authors.map((author, index) => (
+        {AUTHORS.map((author, index) => (
           <Link
             sx={{
               display: 'flex',
@@ -63,7 +48,7 @@ export function Footer() {
                 sx={{ width: 40, height: 40 }}
               />
             </Badge>
-            <Typography variant="body1">{author.name}</Typography>
+            <Typography variant="body1">{translate(author.name)}</Typography>
           </Link>
         ))}
       </Box>
