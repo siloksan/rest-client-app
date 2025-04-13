@@ -87,6 +87,7 @@ export function Login() {
             control={control}
             helperText={emailError}
             data-testid="email"
+            autoComplete="email"
           />
           <PasswordElement
             label="Password"
@@ -95,6 +96,7 @@ export function Login() {
             helperText={passwordError}
             required
             data-testid="password"
+            autoComplete="current-password"
           />
           <Button
             variant="contained"
