@@ -10,6 +10,7 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { Footer } from '@/components/footer/footer';
+import Container from '@mui/material/Container';
 
 export default async function RootLayout({
   children,
@@ -38,7 +39,7 @@ export default async function RootLayout({
       <AppRouterCacheProvider>
         <ThemeProvider theme={theme}>
           <Header initialUserName={userName} />
-          {children}
+          <Container maxWidth="md">{children}</Container>
           <Footer />
           <SnackbarContainer />
         </ThemeProvider>

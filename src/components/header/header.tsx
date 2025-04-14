@@ -4,15 +4,16 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { showSnackbar } from '@/store/snackbar/snackbar-store';
-import { Alert, AppBar } from '@mui/material';
+import { Alert, AppBar, Link } from '@mui/material';
 import { ROUTES } from '@/constants';
-import { redirect, Link } from '@/i18n/navigation';
+import { redirect } from '@/i18n/navigation';
 import { createBrowserSupabase } from '@/db/create-client';
 import { useEffect, useState } from 'react';
 import { useScrollState } from '@/hooks';
 import { useLocale, useTranslations } from 'next-intl';
 import { LanguageSwitcher } from '../language-switcher/language-switcher';
 import Image from 'next/image';
+import { NavBar } from '../navbar/navbar';
 
 interface Props {
   initialUserName: string | null;
@@ -63,7 +64,7 @@ export function Header({ initialUserName }: Props) {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: `${scrolled ? '5px' : '26px'} 20px`,
+        padding: `${scrolled ? '0' : '10px'} 20px`,
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
         backdropFilter: 'blur(3px)',
         transition: 'all 0.3s ease-in-out',
@@ -72,18 +73,31 @@ export function Header({ initialUserName }: Props) {
     >
       <Button>
         <Link href={ROUTES.MAIN}>
-          <Image src="/logo.svg" height={40} width={150} alt="logo" />
+          <Image
+            src="/logo.svg"
+            height={40}
+            width={150}
+            alt="logo"
+            priority={true}
+          />
         </Link>
       </Button>
       <LanguageSwitcher />
       <Box sx={{ display: 'flex', gap: 2 }}>
         {username ? (
-          <Button onClick={signOutAction} title={translateBtn('signout')}>
-            <LogoutIcon />
-          </Button>
+          <>
+            <NavBar />
+            <Button
+              aria-label="sign out"
+              onClick={signOutAction}
+              title={translateBtn('signout')}
+            >
+              <LogoutIcon />
+            </Button>
+          </>
         ) : (
           <>
-            <Button variant="outlined">
+            <Button aria-label="sign in" variant="outlined">
               <Link
                 href={ROUTES.SIGNIN}
                 style={{
@@ -94,7 +108,7 @@ export function Header({ initialUserName }: Props) {
                 {translateBtn('signin')}
               </Link>
             </Button>
-            <Button variant="outlined">
+            <Button aria-label="sign up" variant="outlined">
               <Link
                 href={ROUTES.SIGNUP}
                 style={{

@@ -1,15 +1,15 @@
-import { renderHook } from "@testing-library/react";
-import useDebounce from "./use-debounce";
+import { renderHook } from '@testing-library/react';
+import useDebounce from './use-debounce';
 
 describe('useDebounce', () => {
   beforeEach(() => {
-    vi.useFakeTimers()
-  })
+    vi.useFakeTimers();
+  });
 
   afterEach(() => {
-    vi.clearAllTimers()
-    vi.resetAllMocks()
-  })
+    vi.clearAllTimers();
+    vi.resetAllMocks();
+  });
 
   it('The function is called after the required time has elapsed.', () => {
     const callback = vi.fn();
@@ -20,6 +20,6 @@ describe('useDebounce', () => {
     expect(callback).not.toHaveBeenCalled();
 
     vi.advanceTimersByTime(600);
-    expect(callback).toBeCalledTimes(1)
-  })
-})
+    expect(callback).toBeCalledTimes(1);
+  });
+});
