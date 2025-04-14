@@ -8,6 +8,7 @@ import { ROUTES } from '@/constants';
 import { NextIntlClientProvider } from 'next-intl';
 import userEvent from '@testing-library/user-event';
 import { redirect } from '@/i18n/navigation';
+import { User } from '@supabase/supabase-js';
 
 vi.mock('../language-switcher/language-switcher', () => ({
   LanguageSwitcher: () => <div>LanguageSwitcher</div>,
@@ -53,7 +54,7 @@ describe('Header', () => {
   it('should render the header without error', () => {
     render(
       <NextIntlClientProvider locale={localeMock} messages={messages}>
-        <Header initialUserName={null} />
+        <Header initialUser={null} />
       </NextIntlClientProvider>
     );
 
@@ -62,9 +63,14 @@ describe('Header', () => {
   });
 
   it('should render sign out button when user is logged in', () => {
+    const user = {
+      id: '1',
+      user_metadata: { username: 'test' },
+    } as unknown as User;
+
     render(
       <NextIntlClientProvider locale="en" messages={messages}>
-        <Header initialUserName="test" />
+        <Header initialUser={user} />
       </NextIntlClientProvider>
     );
 
@@ -72,10 +78,15 @@ describe('Header', () => {
   });
 
   it('should call signOutAction when sign out button is clicked', async () => {
+    const user = {
+      id: '1',
+      user_metadata: { username: 'test' },
+    } as unknown as User;
+
     mockSupabase.auth.signOut.mockResolvedValue({ error: null });
     render(
       <NextIntlClientProvider locale={localeMock} messages={messages}>
-        <Header initialUserName="test" />
+        <Header initialUser={user} />
       </NextIntlClientProvider>
     );
 
@@ -94,9 +105,14 @@ describe('Header', () => {
       error: { message: 'Error' },
     });
 
+    const user = {
+      id: '1',
+      user_metadata: { username: 'test' },
+    } as unknown as User;
+
     render(
       <NextIntlClientProvider locale={localeMock} messages={messages}>
-        <Header initialUserName="test" />
+        <Header initialUser={user} />
       </NextIntlClientProvider>
     );
 
@@ -108,19 +124,5 @@ describe('Header', () => {
       href: ROUTES.ERROR,
       locale: localeMock,
     });
-  });
-
-  it('should update username on auth state change', () => {
-    mockSupabase.auth.getUser.mockResolvedValue({
-      data: { user: { user_metadata: { username: 'newuser' } } },
-    });
-
-    render(
-      <NextIntlClientProvider locale={localeMock} messages={messages}>
-        <Header initialUserName={null} />
-      </NextIntlClientProvider>
-    );
-
-    expect(mockSupabase.auth.onAuthStateChange).toHaveBeenCalled();
   });
 });
