@@ -102,6 +102,11 @@ export function Registration() {
             label="Password"
             name="password"
             control={control}
+            slotProps={{
+              htmlInput: {
+                'data-testid': 'password',
+              },
+            }}
             helperText={passwordError}
             autoComplete="new-password"
             required
