@@ -1,5 +1,4 @@
 import { act, render, screen } from '@testing-library/react';
-import { describe, it, vi, expect } from 'vitest';
 import { HistoryTableRow } from './history-table-row';
 import messages from '../../i18n/dictionary/en.json';
 import { NextIntlClientProvider } from 'next-intl';

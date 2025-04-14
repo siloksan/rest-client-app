@@ -88,6 +88,7 @@ export function Registration() {
             required
             control={control}
             helperText={emailError}
+            autoComplete="email"
           />
           <TextFieldElement
             name="username"
@@ -95,13 +96,14 @@ export function Registration() {
             required
             control={control}
             helperText={usernameError}
-            autoComplete="off"
+            autoComplete="username"
           />
           <PasswordElement
             label="Password"
             name="password"
             control={control}
             helperText={passwordError}
+            autoComplete="new-password"
             required
           />
           <Button

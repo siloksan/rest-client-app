@@ -7,37 +7,25 @@ import { Link } from '@/i18n/navigation';
 interface Props {
   title: string;
   description: string;
-  selectedCard: number;
-  index: number;
   href: string;
-  setSelectedCard: (index: number) => void;
 }
 
-export function RestCard({
-  title,
-  selectedCard,
-  description,
-  setSelectedCard,
-  index,
-  href,
-}: Readonly<Props>) {
+export function RestCard({ title, description, href }: Readonly<Props>) {
   return (
-    <Card>
+    <Card
+      sx={{
+        flex: '1 1px',
+        minWidth: '250px',
+        maxWidth: '400px',
+      }}
+    >
       <Link href={href} style={{ textDecoration: 'none', color: 'inherit' }}>
         <CardActionArea
-          onClick={() => setSelectedCard(index)}
-          data-active={selectedCard === index ? '' : undefined}
           sx={{
             height: '100%',
-            '&[data-active]': {
-              backgroundColor: 'action.selected',
-              '&:hover': {
-                backgroundColor: 'action.selectedHover',
-              },
-            },
           }}
         >
-          <CardContent sx={{ height: '100%' }}>
+          <CardContent sx={{ height: '100%', textAlign: 'center' }}>
             <Typography variant="h5" component="div">
               {title}
             </Typography>

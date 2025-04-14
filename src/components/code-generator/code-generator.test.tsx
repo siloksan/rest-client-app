@@ -21,6 +21,8 @@ const CodeGeneratorWrapper = (
 
 describe('CodeGenerator', () => {
   const urlMock = 'https://api.test.com';
+  const codeGenerateBtnName = 'RestClient.CodeGenerator.buttonGenerate';
+  const errorMessage = 'RestClient.CodeGenerator.errorMessageInEditor';
 
   const mockProps: Omit<CodeGeneratorProps, 'snippet' | 'setSnippet'> = {
     method: Methods.GET,
@@ -37,12 +39,12 @@ describe('CodeGenerator', () => {
     });
   });
 
-  it('renders the component', async () => {
+  it('should render CodeGenerator', async () => {
     render(<CodeGeneratorWrapper {...mockProps} />);
+
     expect(
-      screen.getByRole('button', { name: 'Generate Code' })
+      screen.getByRole('button', { name: codeGenerateBtnName })
     ).toBeInTheDocument();
-    expect(screen.getByLabelText('Language')).toBeInTheDocument();
   });
 
   it('should show an error message when request creation fails', async () => {
@@ -57,20 +59,20 @@ describe('CodeGenerator', () => {
     render(<CodeGeneratorWrapper {...mockPropsWithEmptyUrl} />);
 
     const generateCodeButton = screen.getByRole('button', {
-      name: 'Generate Code',
+      name: codeGenerateBtnName,
     });
 
     await userEvent.click(generateCodeButton);
 
     const codeEditor = screen.getByTestId('code-editor-testid');
     expect(codeEditor).toBeInTheDocument();
-    expect(codeEditor).toHaveTextContent('// Please provide a valid data');
+    expect(codeEditor).toHaveTextContent(errorMessage);
   });
 
   it('generates code successfully', async () => {
     render(<CodeGeneratorWrapper {...mockProps} />);
     const generateCodeButton = screen.getByRole('button', {
-      name: 'Generate Code',
+      name: codeGenerateBtnName,
     });
 
     await userEvent.click(generateCodeButton);

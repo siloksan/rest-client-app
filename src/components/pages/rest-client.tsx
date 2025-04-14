@@ -30,21 +30,13 @@ import { CodeGenerator } from '../code-generator/code-generator';
 import useDebounce from '@/hooks/use-debounce';
 import { userAuthStore } from '@/store/userAuth/userAuth-store';
 
-const TABS = {
-  HEADERS: 'Headers',
-  GENERATOR: 'Code Generator',
-  BODY: 'Body',
-} as const;
-
 export default function RestClient() {
   const dataFromUrl = useUrlData();
-  const tabs = [TABS.HEADERS, TABS.GENERATOR, TABS.BODY];
   const router = useRouter();
   const [method, setMethod] = useState<string>(
     dataFromUrl.method || Methods.GET
   );
   const [url, setUrl] = useState(dataFromUrl.url);
-  const [tab, setTab] = useState<string>(tabs[0]);
   const [headers, setHeaders] = useState<Field[]>(
     dataFromUrl.headers || [initialField]
   );
@@ -68,6 +60,15 @@ export default function RestClient() {
   const translate = useTranslations('RestCards');
   const translateRestClient = useTranslations('RestClient');
   const translateBtn = useTranslations('Buttons');
+  const TABS = {
+    HEADERS: translateRestClient('headers'),
+    GENERATOR: translateRestClient('generator'),
+    BODY: translateRestClient('body'),
+  } as const;
+
+  const tabs = [TABS.HEADERS, TABS.GENERATOR, TABS.BODY];
+
+  const [tab, setTab] = useState<string>(tabs[0]);
 
   const handleRoutePush = useCallback(() => {
     const urlWithVariables = replaceVariables(url, variables);

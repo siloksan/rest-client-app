@@ -14,6 +14,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { CodeEditor } from '../code-editor/code-editor';
 import { createRequest } from '@/utils';
+import { useTranslations } from 'next-intl';
 
 export interface CodeGeneratorProps {
   method: string;
@@ -33,6 +34,7 @@ export function CodeGenerator({
   setSnippet,
 }: CodeGeneratorProps) {
   const [language, setLanguage] = useState(CODE_GENERATOR_LANGUAGES[0]);
+  const translate = useTranslations('RestClient.CodeGenerator');
 
   const { storedValue: variables } = useLocalStorage<Variable[]>(
     LOCAL_KEYS.VARIABLES,
@@ -43,8 +45,10 @@ export function CodeGenerator({
     const request = createRequest({ body, headers, method, url, variables });
 
     if (!request) {
-      setSnippet('// Please provide a valid data');
-      showSnackbar(<Alert severity="error">Generate code is failed</Alert>);
+      setSnippet(`// ${translate('errorMessageInEditor')}`);
+      showSnackbar(
+        <Alert severity="error">{translate('snackMessageError')}</Alert>
+      );
       return;
     }
 
@@ -59,12 +63,16 @@ export function CodeGenerator({
       },
       (error, generatedCode) => {
         if (error || !generatedCode) {
-          setSnippet(`// Failed to generate code: ${error?.message}`);
-          showSnackbar(<Alert severity="error">Generate code is failed</Alert>);
+          setSnippet(
+            `// ${translate('unknownErrorMessage', { error: error?.message ?? '' })}`
+          );
+          showSnackbar(
+            <Alert severity="error">{translate('snackMessageError')}</Alert>
+          );
         } else {
           setSnippet(generatedCode);
           showSnackbar(
-            <Alert severity="success">Code generated successfully</Alert>
+            <Alert severity="success">{translate('snackMessageSuccess')}</Alert>
           );
         }
       }
@@ -96,7 +104,9 @@ export function CodeGenerator({
       >
         <Box sx={{ width: 180 }}>
           <FormControl fullWidth size="small">
-            <InputLabel id="language-select">Language</InputLabel>
+            <InputLabel id="language-select">
+              {translate('selectLabel')}
+            </InputLabel>
             <Select
               labelId="language-select"
               id="language-select"
@@ -113,7 +123,7 @@ export function CodeGenerator({
           </FormControl>
         </Box>
         <Button variant="outlined" onClick={generateCode}>
-          Generate Code
+          {translate('buttonGenerate')}
         </Button>
       </Box>
     </section>
