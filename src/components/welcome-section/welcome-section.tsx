@@ -9,6 +9,7 @@ import { Link } from '@/i18n/navigation';
 import { RestCards } from '../rest-cards/rest-cards';
 import { DeveloperCards } from '../developer-cards/developer-cards';
 import Divider from '@mui/material/Divider';
+import { Container } from '@mui/material';
 
 interface Props {
   username: string | null;
@@ -19,7 +20,7 @@ export function WelcomeSection({ username }: Props) {
   const translateBtn = useTranslations('Buttons');
 
   return (
-    <>
+    <Container>
       {username ? (
         <Typography variant="h2" sx={{ textAlign: 'center', mt: 10 }}>
           {translate('welcome_user', { username })}
@@ -73,6 +74,6 @@ export function WelcomeSection({ username }: Props) {
         {translate('bottom_text')}
       </Typography>
       <Divider sx={{ mb: 10 }} />
-    </>
+    </Container>
   );
 }
