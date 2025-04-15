@@ -42,6 +42,7 @@ export default async function RootLayout({
             sx={{
               display: 'flex',
               flexDirection: 'column',
+              flex: 1,
             }}
           >
             {children}
