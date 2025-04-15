@@ -8,21 +8,26 @@ import { Alert, AppBar, Link } from '@mui/material';
 import { ROUTES } from '@/constants';
 import { redirect } from '@/i18n/navigation';
 import { createBrowserSupabase } from '@/db/create-client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useScrollState } from '@/hooks';
 import { useLocale, useTranslations } from 'next-intl';
 import { LanguageSwitcher } from '../language-switcher/language-switcher';
+import { userAuthStore } from '@/store/userAuth/userAuth-store';
 import Image from 'next/image';
+import { User } from '@supabase/supabase-js';
 import { NavBar } from '../navbar/navbar';
 
 interface Props {
-  initialUserName: string | null;
+  initialUser: User | null;
 }
 
-export function Header({ initialUserName }: Props) {
+export function Header({ initialUser }: Props) {
   const locale = useLocale();
   const { scrolled } = useScrollState();
-  const [username, setUsername] = useState(initialUserName);
+  const setUser = userAuthStore((state) => state.setUser);
+  const username = userAuthStore(
+    (state) => state.userData?.user_metadata.username
+  );
   const supabase = createBrowserSupabase();
   const translateBtn = useTranslations('Buttons');
 
@@ -36,24 +41,13 @@ export function Header({ initialUserName }: Props) {
     }
 
     showSnackbar(<Alert severity="success">Goodbye {username}!</Alert>);
-    setUsername(null);
+    setUser(null);
     return redirect({ href: ROUTES.MAIN, locale });
   };
 
   useEffect(() => {
-    const getUserData = async () => {
-      const { data } = await supabase.auth.getUser();
-      const userName = data?.user?.user_metadata.username ?? null;
-
-      setUsername(userName);
-    };
-
-    const { data: authListener } = supabase.auth.onAuthStateChange(() => {
-      getUserData();
-    });
-
-    return () => authListener.subscription.unsubscribe();
-  }, [supabase]);
+    setUser(initialUser);
+  }, [initialUser, setUser]);
 
   return (
     <AppBar

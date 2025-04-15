@@ -26,9 +26,7 @@ export default async function RootLayout({
   }
 
   const supabase = await createServerSupabase();
-
   const { data } = await supabase.auth.getUser();
-  const userName = data?.user?.user_metadata.username;
 
   // Enable static rendering
   setRequestLocale(locale);
@@ -38,7 +36,7 @@ export default async function RootLayout({
     <NextIntlClientProvider messages={messages}>
       <AppRouterCacheProvider>
         <ThemeProvider theme={theme}>
-          <Header initialUserName={userName} />
+          <Header initialUser={data?.user} />
           <Container maxWidth="md">{children}</Container>
           <Footer />
           <SnackbarContainer />
