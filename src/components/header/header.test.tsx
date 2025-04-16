@@ -24,6 +24,7 @@ vi.mock('@/db/create-client', () => ({
 
 vi.mock('@/i18n/navigation', () => ({
   redirect: vi.fn(),
+  Link: () => <div data-testid="test-link" />,
 }));
 
 vi.mock(import('next-intl'), async (importOriginal) => {

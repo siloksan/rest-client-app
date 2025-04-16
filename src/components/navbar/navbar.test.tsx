@@ -2,6 +2,14 @@ import { render, screen } from '@testing-library/react';
 import { NavBar } from './navbar';
 import { ROUTES } from '@/constants';
 
+vi.mock('@/i18n/navigation', () => ({
+  Link: ({ href }: { href: string }) => (
+    <a data-testid="test-link" href={href}>
+      link
+    </a>
+  ),
+}));
+
 describe('NavBar', () => {
   it('should render the NavBar component', () => {
     render(<NavBar />);
