@@ -1,3 +1,5 @@
+import { BODY_TYPES } from '@/constants';
+
 export enum Methods {
   GET = 'GET',
   POST = 'POST',
@@ -19,3 +21,5 @@ export type HistoryRecordType = {
   requestedUrl: string;
   innerUrl: string;
 };
+
+export type BodyTypeNamesType = (typeof BODY_TYPES)[number]['name'];

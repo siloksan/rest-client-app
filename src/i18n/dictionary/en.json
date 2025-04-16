@@ -62,6 +62,12 @@
       "unknownErrorMessage": "Failed to generate code: {error}",
       "selectLabel": "Language",
       "buttonGenerate": "Generate code"
+    },
+    "CodeEditor": {
+      "buttonFormat": "Format code",
+      "snackMessageSuccess": "Code formatted successfully",
+      "normalStatusLine": "Line {line}/{lines}, Column {column}",
+      "selectedStatusLine": "{lines} lines, {characters} characters selected"
     }
   },
 

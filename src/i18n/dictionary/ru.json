@@ -62,6 +62,12 @@
       "unknownErrorMessage": "Ошибка при генерации кода: {error}",
       "selectLabel": "Язык",
       "buttonGenerate": "Сгенерировать код"
+    },
+    "CodeEditor": {
+      "buttonFormat": "Форматировать код",
+      "snackMessageSuccess": "Код отформатирован успешно",
+      "normalStatusLine": "Строка {line}/{lines}, Символ {column}",
+      "selectedStatusLine": "{lines} строк, {characters} символов выделено"
     }
   },
 
