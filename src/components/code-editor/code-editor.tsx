@@ -1,7 +1,7 @@
 'use client';
 
 import React, { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
-import CodeMirror, { Extension } from '@uiw/react-codemirror';
+import CodeMirror, { Extension, ViewUpdate } from '@uiw/react-codemirror';
 import {
   Alert,
   IconButton,
@@ -36,6 +36,27 @@ export function CodeEditor({
   const [parsedCode, setParsedCode] = React.useState<string>('');
   const [statusBar, setStatusBar] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
+
+  const onUpdateHandler = (cm: ViewUpdate) => {
+    const { selection } = cm.state;
+    const line = cm.view.state.doc.lineAt(selection.main.from);
+    setStatusBar(
+      translate('normalStatusLine', {
+        line: String(line.number),
+        lines: String(cm.state.doc.lines),
+        column: String(cm.state.selection.main.head - line.from + 1),
+      })
+    );
+    const text = cm.state.sliceDoc(selection.main.from, selection.main.to);
+    if (text) {
+      setStatusBar(
+        translate('selectedStatusLine', {
+          lines: String(text.split('\n').length),
+          characters: String(text.length),
+        })
+      );
+    }
+  };
 
   const formatHandler = useCallback(() => {
     if (handler && !errorMessage) {
@@ -134,29 +155,7 @@ export function CodeEditor({
               }
             : undefined
         }
-        onUpdate={(cm) => {
-          const { selection } = cm.state;
-          const line = cm.view.state.doc.lineAt(selection.main.from);
-          setStatusBar(
-            translate('normalStatusLine', {
-              line: String(line.number),
-              lines: String(cm.state.doc.lines),
-              column: String(cm.state.selection.main.head - line.from + 1),
-            })
-          );
-          const text = cm.state.sliceDoc(
-            selection.main.from,
-            selection.main.to
-          );
-          if (text) {
-            setStatusBar(
-              translate('selectedStatusLine', {
-                lines: String(text.split('\n').length),
-                characters: String(text.length),
-              })
-            );
-          }
-        }}
+        onUpdate={onUpdateHandler}
       />
       {editable ? (
         <Toolbar
