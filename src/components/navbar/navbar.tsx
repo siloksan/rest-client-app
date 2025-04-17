@@ -13,48 +13,42 @@ export function NavBar() {
   const translate = useTranslations('RestCards');
 
   return (
-    <Box>
+    <Box sx={{ display: 'flex' }}>
       <Tooltip title={translate('client.title')}>
-        <Button>
-          <Link href={ROUTES.REST_CLIENT}>
+        <Link href={ROUTES.REST_CLIENT}>
+          <Button>
             <Typography
               color="primary"
               sx={{ display: 'flex', alignItems: 'center' }}
             >
               <ApiIcon />
             </Typography>
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </Tooltip>
       <Tooltip title={translate('history.title')}>
-        <Button>
-          <Link
-            href={ROUTES.HISTORY}
-            style={{ display: 'flex', alignItems: 'center' }}
-          >
+        <Link href={ROUTES.HISTORY}>
+          <Button>
             <Typography
               color="primary"
               sx={{ display: 'flex', alignItems: 'center' }}
             >
               <HistoryEduIcon />
             </Typography>
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </Tooltip>
       <Tooltip title={translate('variable.title')}>
-        <Button>
-          <Link
-            href={ROUTES.VARIABLE}
-            style={{ display: 'flex', alignItems: 'center' }}
-          >
+        <Link href={ROUTES.VARIABLE}>
+          <Button>
             <Typography
               color="primary"
               sx={{ display: 'flex', alignItems: 'center' }}
             >
               <TuneIcon />
             </Typography>
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </Tooltip>
     </Box>
   );
