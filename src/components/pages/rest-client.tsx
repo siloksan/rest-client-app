@@ -18,7 +18,12 @@ import { ChangeEvent, SyntheticEvent, useCallback, useState } from 'react';
 import { initialField, Field, Fields } from '../fields/fields';
 import { CodeEditor } from '../code-editor/code-editor';
 import { ResponseField } from '../response-field/response-field';
-import { HistoryRecordType, Methods, Variable } from '@/types';
+import {
+  BodyTypeNamesType,
+  HistoryRecordType,
+  Methods,
+  Variable,
+} from '@/types';
 import { useRouter } from 'next/navigation';
 import { bytesToBase64 } from '@/utils/converterBase64';
 import { useTranslations } from 'next-intl';
@@ -42,6 +47,7 @@ export default function RestClient() {
   );
 
   const [codeBody, setCodeBody] = useState(dataFromUrl.body);
+  const [bodyType, setBodyType] = useState<BodyTypeNamesType>('text');
   const [snippet, setSnippet] = useState('');
 
   const [response, setResponse] = useState<{
@@ -201,7 +207,12 @@ export default function RestClient() {
             />
           )}
           {tab === TABS.BODY && (
-            <CodeEditor handler={setCodeBody} value={codeBody} />
+            <CodeEditor
+              handler={setCodeBody}
+              value={codeBody}
+              bodyType={bodyType}
+              setBodyType={setBodyType}
+            />
           )}
         </Box>
         {response && (
