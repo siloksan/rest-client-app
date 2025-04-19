@@ -12,9 +12,10 @@ export async function GET(
   const searchParams = new URLSearchParams(new URL(request.url).search);
   const url = new TextDecoder().decode(base64ToBytes(urlBase64));
   let response: Response;
-  const headers = searchParams
-    .entries()
-    .map(([key, value]) => [key, decodeURIComponent(value)]);
+  const headers = [...searchParams.entries()].map(([key, value]) => [
+    key,
+    decodeURIComponent(value),
+  ]);
 
   try {
     if (Methods.GET === method) {
