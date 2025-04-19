@@ -1,12 +1,10 @@
+import messages from '@/i18n/dictionary/en.json';
 import { render, screen, waitFor } from '@testing-library/react';
-import { Mock } from 'vitest';
-import { Login } from './login';
-import { createBrowserSupabase } from '@/db/create-client';
-import messages from '../../i18n/dictionary/en.json';
 import { NextIntlClientProvider } from 'next-intl';
-import { redirect } from '@/i18n/navigation';
+import { Registration } from './registration';
+import { createBrowserSupabase } from '@/db/create-client';
+import { Mock } from 'vitest';
 import userEvent from '@testing-library/user-event';
-import { ROUTES } from '@/constants';
 
 vi.mock('@/db/create-client', () => ({
   createBrowserSupabase: vi.fn(),
@@ -24,11 +22,12 @@ vi.mock(import('next-intl'), async (importOriginal) => {
   };
 });
 
-describe('Login Component', () => {
+describe('Registration', () => {
   const localeMock = 'en';
+
   const mockSupabase = {
     auth: {
-      signInWithPassword: vi.fn().mockResolvedValue({ error: null, data: '' }),
+      signUp: vi.fn().mockResolvedValue({ error: null, data: '' }),
     },
   };
 
@@ -36,44 +35,51 @@ describe('Login Component', () => {
     (createBrowserSupabase as Mock).mockReturnValue(mockSupabase);
   });
 
-  it('should render the login form', () => {
+  it('should render the registration form', () => {
     render(
       <NextIntlClientProvider locale={localeMock} messages={messages}>
-        <Login />
+        <Registration />
       </NextIntlClientProvider>
     );
 
     expect(
-      screen.getByRole('heading', { level: 4, name: 'Log in' })
+      screen.getByRole('heading', { level: 4, name: 'Registration' })
     ).toBeInTheDocument();
   });
 
-  it('should call signInWithPassword with valid data', async () => {
+  it('should call signUp with valid data', async () => {
     const mockUser = {
       email: 'test@example.com',
       password: 'TestPassword123!',
+      username: 'Testuser',
     };
 
     render(
       <NextIntlClientProvider locale="en" messages={messages}>
-        <Login />
+        <Registration />
       </NextIntlClientProvider>
     );
     const emailInput = screen.getByLabelText(/email/i);
+    const usernameInput = screen.getByLabelText(/username/i);
     const passwordInput = screen.getByTestId('password');
-    const button = screen.getByRole('button', { name: /sign in/i });
+    const button = screen.getByRole('button', { name: /sign up/i });
 
     await userEvent.type(emailInput, mockUser.email);
+    await userEvent.type(usernameInput, mockUser.username);
     await userEvent.type(passwordInput, mockUser.password);
     await waitFor(() => {
       expect(button).toBeEnabled();
     });
     await userEvent.click(button);
 
-    expect(mockSupabase.auth.signInWithPassword).toHaveBeenCalledWith({
+    expect(mockSupabase.auth.signUp).toHaveBeenCalledWith({
       email: mockUser.email,
       password: mockUser.password,
+      options: {
+        data: {
+          username: mockUser.username,
+        },
+      },
     });
-    expect(redirect).toHaveBeenCalledWith({ href: ROUTES.MAIN, locale: 'en' });
   });
 });

@@ -37,7 +37,16 @@ export default async function RootLayout({
       <AppRouterCacheProvider>
         <ThemeProvider theme={theme}>
           <Header initialUser={data?.user} />
-          <Container maxWidth="md">{children}</Container>
+          <Container
+            maxWidth="md"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              flex: 1,
+            }}
+          >
+            {children}
+          </Container>
           <Footer />
           <SnackbarContainer />
         </ThemeProvider>

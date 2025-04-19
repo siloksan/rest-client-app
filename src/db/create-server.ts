@@ -16,7 +16,7 @@ export async function createServerSupabase() {
             cookieStore.set(name, value, options);
           });
         } catch (error) {
-          console.error(error);
+          throw new Error('Failed to set cookies', { cause: error });
         }
       },
     },

@@ -4,6 +4,7 @@ import { ROUTES } from '@/constants';
 import { createBrowserSupabase } from '@/db/create-client';
 import { redirect } from '@/i18n/navigation';
 import { showSnackbar } from '@/store/snackbar/snackbar-store';
+import { userAuthStore } from '@/store/userAuth/userAuth-store';
 import { RegistrationFormData, registrationSchema } from '@/utils/form-schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Alert } from '@mui/material';
@@ -22,6 +23,8 @@ import {
 export function Registration() {
   const translate = useTranslations('RegistrationPage');
   const translateBtn = useTranslations('Buttons');
+  const setUser = userAuthStore((state) => state.setUser);
+
   const locale = useLocale();
   const {
     control,
@@ -53,6 +56,7 @@ export function Registration() {
     }
 
     const userName = data?.user?.user_metadata?.username;
+    setUser(userName);
 
     showSnackbar(
       <Alert severity="success">{`Registration successfully ${userName}!`}</Alert>
@@ -102,6 +106,11 @@ export function Registration() {
             label="Password"
             name="password"
             control={control}
+            slotProps={{
+              htmlInput: {
+                'data-testid': 'password',
+              },
+            }}
             helperText={passwordError}
             autoComplete="new-password"
             required

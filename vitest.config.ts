@@ -20,14 +20,14 @@ export default defineConfig({
         '**/node_modules/**',
         '**/*.test.{js,jsx,ts,tsx}',
         '.next/',
-        '**/*.config.{js,mjs,ts}',
+        '**/*.{config,d,json}.{js,mjs,ts}',
       ],
     },
     server: {
       deps: {
         // https://github.com/vercel/next.js/issues/77200
-        inline: ['next-intl']
-      }
-    }
+        inline: ['next-intl'],
+      },
+    },
   },
 });

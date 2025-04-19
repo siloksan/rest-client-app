@@ -98,7 +98,11 @@ export function Login() {
             control={control}
             helperText={passwordError}
             required
-            data-testid="password"
+            slotProps={{
+              htmlInput: {
+                'data-testid': 'password',
+              },
+            }}
             autoComplete="current-password"
           />
           <Button
