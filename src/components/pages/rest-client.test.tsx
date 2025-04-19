@@ -24,6 +24,25 @@ const mockUrlData: {
   body: '{"key":"value"}',
 };
 
+vi.mock('../code-editor/code-editor', () => ({
+  CodeEditor: ({
+    handler,
+    value,
+  }: {
+    handler: (value: string) => void;
+    value: string;
+  }) => (
+    <>
+      <textarea
+        aria-label="code-editor"
+        value={value}
+        onChange={(e) => handler(e.target.value)}
+      />
+      <button type="button">Format</button>
+    </>
+  ),
+}));
+
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: pushMock }),
 }));
