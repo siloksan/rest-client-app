@@ -1,18 +1,6 @@
-import { Inter, JetBrains_Mono, Roboto } from 'next/font/google';
+import { Roboto } from 'next/font/google';
 import './[locale]/globals.css';
 import { getTranslations } from 'next-intl/server';
-
-const inter = Inter({
-  variable: '--font-inter',
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-});
-
-const jetBrainsMono = JetBrains_Mono({
-  variable: '--font-jetbrains-mono',
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-});
 
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
@@ -52,7 +40,8 @@ export default async function RootLayout({
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body
-        className={`${inter.variable} ${jetBrainsMono.variable} ${roboto.variable}`}
+        // className={`${inter.variable} ${jetBrainsMono.variable} ${roboto.variable}`}
+        className={`${roboto.variable}`}
       >
         {children}
       </body>
