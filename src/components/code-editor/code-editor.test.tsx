@@ -2,6 +2,17 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { CodeEditor } from './code-editor';
 
+vi.mock('@uiw/react-codemirror', () => ({
+  __esModule: true,
+  default: ({
+    value,
+    onChange,
+  }: {
+    value: string;
+    onChange?: (value: string) => void;
+  }) => <textarea value={value} onChange={(e) => onChange?.(e.target.value)} />,
+}));
+
 describe('CodeEditor', () => {
   const formatBtnName = 'RestClient.CodeEditor.buttonFormat';
 
@@ -15,7 +26,7 @@ describe('CodeEditor', () => {
     render(<CodeEditor value={''} editable setBodyType={mockedSetBodyType} />);
     const jsonBtn = screen.getByRole('button', { name: 'JSON' });
     expect(jsonBtn).toBeInTheDocument();
-    await jsonBtn.click();
+    jsonBtn.click();
     expect(mockedSetBodyType).toBeCalledWith('json');
   });
 
@@ -32,9 +43,9 @@ describe('CodeEditor', () => {
 
     const formatBtn = screen.getByText(formatBtnName);
     expect(formatBtn).toBeInTheDocument();
-    await formatBtn.click();
+    formatBtn.click();
     expect(mockedHandler).toBeCalledWith(`{
-  \"key\": 1
+  "key": 1
 }`);
 
     await userEvent.keyboard('{Alt>}{Shift>}F{/Shift}{/Alt}');
