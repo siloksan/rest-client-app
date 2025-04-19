@@ -1,33 +1,15 @@
-import { createServerClient } from '@supabase/ssr';
 import { NextFetchEvent, NextResponse, type NextRequest } from 'next/server';
-import { keySupabase, urlSupabase } from './supabase.credentials';
 import { locales, ROUTES } from '@/constants';
 import { MiddlewareFactory } from '@/middleware';
+import { createServerClientMiddleware } from './middleware.utils';
 
 const protectedRoutes = [ROUTES.REST_CLIENT, ROUTES.HISTORY, ROUTES.VARIABLE];
 
 export const withAuth: MiddlewareFactory = (nextMiddleware) => {
   return async (request: NextRequest, event: NextFetchEvent) => {
-    let supabaseResponse = await nextMiddleware(request, event);
+    const supabaseResponse = await nextMiddleware(request, event);
 
-    const supabase = createServerClient(urlSupabase, keySupabase, {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
-          );
-          supabaseResponse = NextResponse.next({
-            request,
-          });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          );
-        },
-      },
-    });
+    const supabase = createServerClientMiddleware(request, supabaseResponse);
 
     const {
       data: { user },

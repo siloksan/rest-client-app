@@ -56,7 +56,7 @@ export function Registration() {
     }
 
     const userName = data?.user?.user_metadata?.username;
-    setUser(userName);
+    setUser(data?.user);
 
     showSnackbar(
       <Alert severity="success">{`Registration successfully ${userName}!`}</Alert>
