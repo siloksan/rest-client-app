@@ -21,6 +21,7 @@ export default defineConfig({
         '**/*.test.{js,jsx,ts,tsx}',
         '.next/',
         '**/*.{config,d,json}.{js,mjs,ts}',
+        'src/i18n/middleware.ts',
       ],
     },
     server: {

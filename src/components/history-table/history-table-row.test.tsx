@@ -28,7 +28,6 @@ describe('HistoryTableRow', () => {
   });
 
   it('should render HistoryTableRow component without crash', async () => {
-    vi.spyOn(console, 'log').mockImplementation(() => null);
     Object.assign(navigator, {
       clipboard: {
         writeText: mockedCopyResolve,

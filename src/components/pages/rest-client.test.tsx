@@ -5,6 +5,17 @@ import userEvent from '@testing-library/user-event';
 
 const pushMock = vi.fn();
 
+vi.mock('@uiw/react-codemirror', () => ({
+  __esModule: true,
+  default: ({
+    value,
+    onChange,
+  }: {
+    value: string;
+    onChange?: (value: string) => void;
+  }) => <textarea value={value} onChange={(e) => onChange?.(e.target.value)} />,
+}));
+
 const mockUrlData: {
   method: string;
   url: string;

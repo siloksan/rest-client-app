@@ -26,7 +26,7 @@ export function Header({ initialUser }: Props) {
   const { scrolled } = useScrollState();
   const setUser = userAuthStore((state) => state.setUser);
   const username = userAuthStore(
-    (state) => state.userData?.user_metadata.username
+    (state) => state.userData?.user_metadata?.username
   );
   const supabase = createBrowserSupabase();
   const translateBtn = useTranslations('Buttons');
