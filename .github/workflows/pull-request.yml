@@ -1,0 +1,40 @@
+env:
+  NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+
+name: Pull request
+run-name: ${{ github.actor }} is working on a pull request
+on:
+  pull_request:
+    branches: [develop]
+    types: [opened, edited, reopened]
+jobs:
+  init:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Starting Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Cache Node.js modules
+        uses: actions/cache@v4
+        id: npm-cache
+        with:
+          path: ~/.npm
+          key: npm-cache-v1-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-clear-2024-06-20
+          restore-keys: |
+            npm-cache-v1-${{ runner.os }}-
+      - name: install modules
+        run: npm install
+      - name: build project
+        run: npm run build
+      - name: run test
+        run: npm run test
+      - name: format code
+        run: npm run format
+      - name: lint code
+        run: npm run lint
