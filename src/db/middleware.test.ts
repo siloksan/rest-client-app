@@ -2,13 +2,16 @@ import { Mock } from 'vitest';
 import { NextRequest, NextFetchEvent, NextResponse } from 'next/server';
 import { withAuth } from './middleware';
 import { ROUTES } from '@/constants';
-import { createServerClientMiddleware } from './middleware.utils';
+import { createServerClient } from '@supabase/ssr';
 
-vi.mock('./middleware.utils', () => {
-  return {
-    createServerClientMiddleware: vi.fn(),
-  };
-});
+vi.mock('@supabase/ssr', () => ({
+  createServerClient: vi.fn(),
+}));
+
+vi.mock('./supabase.credentials', () => ({
+  keySupabase: 'test-key',
+  urlSupabase: 'test-url',
+}));
 
 describe('withAuth middleware', () => {
   const mockGetUser = vi.fn();
@@ -23,7 +26,7 @@ describe('withAuth middleware', () => {
       getUser: mockGetUser,
     },
   };
-  (createServerClientMiddleware as Mock).mockReturnValue(mockSupabase);
+  (createServerClient as Mock).mockReturnValue(mockSupabase);
 
   it('should redirect to sign-in if user is not authenticated and route is protected', async () => {
     mockGetUser.mockResolvedValueOnce({
